@@ -1,0 +1,222 @@
+export const daySigns = [
+  {
+ id: 1,
+    name: "Cipactli",
+    englishName: "Crocodile",
+    glyph: "🐊",
+    meaning: "The beginning, primordial energy, creation",
+    element: "water",
+    direction: "east",
+    ruler: "Tonacatecuhtli",
+    associations: ["beginnings", "creation", "primordial energy", "life force"]
+  },
+  {
+    id: 2,
+    name: "Ehecatl",
+    englishName: "Wind",
+    glyph: "💨",
+    meaning: "Movement, change, communication, breath",
+    element: "air",
+    direction: "north",
+    ruler: "Quetzalcoatl",
+    associations: ["movement", "change", "communication", "breath", "intellect"]
+  },
+  {
+    id: 3,
+    name: "Calli",
+    englishName: "House",
+    glyph: "🏠",
+    meaning: "Home, stability, protection, ancestors",
+    element: "earth",
+    direction: "west",
+    ruler: "Tepeyollotl",
+    associations: ["home", "stability", "protection", "ancestors", "foundation"]
+  },
+  {
+    id: 4,
+    name: "Cuetzpalin",
+    englishName: "Lizard",
+    glyph: "🦎",
+    meaning: "Adaptation, survival, regeneration",
+    element: "earth",
+    direction: "south",
+    ruler: "Huehuecoyotl",
+    associations: ["adaptation", "survival", "regeneration", "flexibility"]
+  },
+  {
+    id: 5,
+    name: "Coatl",
+    englishName: "Serpent",
+    glyph: "🐍",
+    meaning: "Transformation, wisdom, healing, duality",
+    element: "earth",
+    direction: "east",
+    ruler: "Chalchiuhtlicue",
+    associations: ["transformation", "wisdom", "healing", "duality", "renewal"]
+  },
+  {
+    id: 6,
+    name: "Miquiztli",
+    englishName: "Death",
+    glyph: "💀",
+    meaning: "Transition, endings, transformation, ancestors",
+    element: "earth",
+    direction: "north",
+    ruler: "Tecciztecatl",
+    associations: ["transition", "endings", "transformation", "ancestors", "rebirth"]
+  },
+  {
+    id: 7,
+    name: "Mazatl",
+    englishName: "Deer",
+    glyph: "🦌",
+    meaning: "Gentleness, grace, swiftness, connection to nature",
+    element: "earth",
+    direction: "west",
+    ruler: "Tlaloc",
+    associations: ["gentleness", "grace", "swiftness", "nature", "harmony"]
+  },
+  {
+    id: 8,
+    name: "Tochtli",
+    englishName: "Rabbit",
+    glyph: "🐰",
+    meaning: "Fertility, abundance, creativity, playfulness",
+    element: "earth",
+    direction: "south",
+    ruler: "Mayahuel",
+    associations: ["fertility", "abundance", "creativity", "playfulness", "joy"]
+  },
+  {
+    id: 9,
+    name: "Atl",
+    englishName: "Water",
+    glyph: "💧",
+    meaning: "Purification, emotions, flow, life",
+    element: "water",
+    direction: "east",
+    ruler: "Xiuhtecuhtli",
+    associations: ["purification", "emotions", "flow", "life", "healing"]
+  },
+  {
+    id: 10,
+    name: "Itzcuintli",
+    englishName: "Dog",
+    glyph: "🐕",
+    meaning: "Loyalty, companionship, protection, guidance",
+    element: "earth",
+    direction: "north",
+    ruler: "Mictlantecuhtli",
+    associations: ["loyalty", "companionship", "protection", "guidance", "faithfulness"]
+  },
+  {
+    id: 11,
+    name: "Ozomatli",
+    englishName: "Monkey",
+    glyph: "🐵",
+    meaning: "Playfulness, creativity, intelligence, mischief",
+    element: "earth",
+    direction: "west",
+    ruler: "Xochipilli",
+    associations: ["playfulness", "creativity", "intelligence", "mischief", "art"]
+  },
+  {
+    id: 12,
+    name: "Malinalli",
+    englishName: "Grass",
+    glyph: "🌾",
+    meaning: "Renewal, perseverance, flexibility, growth",
+    element: "earth",
+    direction: "south",
+    ruler: "Patecatl",
+    associations: ["renewal", "perseverance", "flexibility", "growth", "resilience"]
+  },
+  {
+    id: 13,
+    name: "Acatl",
+    englishName: "Reed",
+    glyph: "🎋",
+    meaning: "Knowledge, communication, authority, flexibility",
+    element: "earth",
+    direction: "east",
+    ruler: "Tezcatlipoca",
+    associations: ["knowledge", "communication", "authority", "flexibility", "learning"]
+  },
+  {
+    id: 14,
+    name: "Ocelotl",
+    englishName: "Jaguar",
+    glyph: "🐆",
+    meaning: "Power, courage, strength, night energy",
+    element: "earth",
+    direction: "north",
+    ruler: "Tlazolteotl",
+    associations: ["power", "courage", "strength", "night", "warrior energy"]
+  },
+  {
+    id: 15,
+    name: "Quauhtli",
+    englishName: "Eagle",
+    glyph: "🦅",
+    meaning: "Vision, freedom, leadership, spiritual connection",
+    element: "air",
+    direction: "west",
+    ruler: "Xipe Totec",
+    associations: ["vision", "freedom", "leadership", "spiritual", "higher perspective"]
+  },
+  {
+    id: 16,
+    name: "Cozcaquauhtli",
+    englishName: "Buzzard",
+    glyph: "🦅",
+    meaning: "Purification, transformation, patience, wisdom",
+    element: "air",
+    direction: "south",
+    ruler: "Itztlacoliuhqui",
+    associations: ["purification", "transformation", "patience", "wisdom", "cleansing"]
+  },
+  {
+    id: 17,
+    name: "Ollin",
+    englishName: "Movement",
+    glyph: "🌊",
+    meaning: "Change, balance, cosmic energy, earthquake",
+    element: "earth",
+    direction: "east",
+    ruler: "Xolotl",
+    associations: ["change", "balance", "cosmic energy", "earthquake", "dynamic energy"]
+  },
+  {
+    id: 18,
+    name: "Tepoztlac",
+    englishName: "Stone",
+    glyph: "🪨",
+    meaning: "Foundation, permanence, resistance, ancient wisdom",
+    element: "earth",
+    direction: "north",
+    ruler: "Tlaloc",
+    associations: ["foundation", "permanence", "resistance", "ancient wisdom", "stability"]
+  },
+  {
+    id: 19,
+    name: "Quiahuitl",
+    englishName: "Rain",
+    glyph: "🌧️",
+    meaning: "Blessing, purification, growth, emotional release",
+    element: "water",
+    direction: "west",
+    ruler: "Tlaloc",
+    associations: ["blessing", "purification", "growth", "emotional release", "fertility"]
+  },
+  {
+    id: 20,
+    name: "Xochitl",
+    englishName: "Flower",
+    glyph: "🌸",
+    meaning: "Beauty, creativity, pleasure, spiritual blossoming",
+    element: "earth",
+    direction: "south",
+    ruler: "Xochiquetzal",
+    associations: ["beauty", "creativity", "pleasure", "spiritual blossoming", "art"]
+  }
+];
