@@ -1,5 +1,6 @@
 import Link from "next/link";
 import AztecCalendarExample from "./aztec-example";
+import AztecCalendarWheel from "./aztec-calendar-wheel";
 
 export const metadata = {
   title: "Calendar - Educational Platform",
@@ -32,10 +33,17 @@ export default function Calendar() {
           </p>
         </div>
 
+        {/* Aztec Calendar Wheel Visualization */}
+        <div className="mb-12">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            <AztecCalendarWheel />
+          </div>
+        </div>
+
         {/* Aztec Calendar Example */}
         <div className="mb-12">
           <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-            🌟 Aztec Calendar System
+            🌟 Aztec Calendar Details
           </h2>
           <AztecCalendarExample />
         </div>
