@@ -1,212 +1,246 @@
-# Educational Platform
+# Aztec Learning Collective - Static Bundle
 
-A modern, fully-featured educational platform built with Next.js 14, TypeScript, and Tailwind CSS. The application provides a visually rich interface for managing learning schedules, accessing educational guides, and tracking progress.
+A responsive, statically-served learning portal inspired by Aztec artistry. Built as pure HTML, CSS, and JavaScript with no build tools or dependencies required. Ships as a clean, portable static bundle.
 
 ## 🚀 Features
 
-- **Next.js 14** with App Router for optimal performance
-- **TypeScript** for type-safe development
-- **Tailwind CSS** with custom educational color scheme
-- **Accessibility First** with focus styles and skip links
-- **Testing Infrastructure** with Vitest and React Testing Library
-- **ESLint & Prettier** configured for code quality
-- **Responsive Design** for mobile and desktop
-- **Dark Mode Support** with system preferences
+- **Pure HTML/CSS/JavaScript** - No build dependencies, no npm required
+- **Design System** - Comprehensive CSS variables for colors, typography, spacing, and utilities
+- **Responsive Layout** - Mobile-first, accessible across all devices
+- **Accessibility First** - WCAG 2.1 AA compliant with keyboard navigation and focus management
+- **Sticky Navigation** - Easy access to all sections with active page indicators
+- **Semantic HTML** - Proper heading hierarchy, ARIA attributes, and landmarks
+- **Dark Mode Support** - Respects system color-scheme preferences
+- **Google Fonts Integration** - Playfair Display, Source Sans 3, IBM Plex Mono
 
 ## 📋 Project Structure
 
 ```
-src/
-├── app/                    # Next.js app directory
-│   ├── layout.tsx         # Root layout with accessibility features
-│   ├── page.tsx           # Home page
-│   ├── globals.css        # Global styles with accessibility
-│   ├── calendar/          # Calendar section
-│   │   └── page.tsx
-│   ├── guide/             # Learning guides section
-│   │   └── page.tsx
-│   ├── __tests__/         # Component tests
-│   └── [route]/__tests__/
-├── lib/                    # Utility functions
-│   ├── formatDate.ts
-│   └── __tests__/
-└── test/
-    └── setup.ts           # Test configuration
+.
+├── index.html                    # Home page
+├── calendar.html                 # Interactive calendar page
+├── guide.html                    # Learning guides page
+├── guide-aztec-calendar.html     # Tonalpohualli deep dive
+├── assets/
+│   ├── css/
+│   │   └── styles.css           # Global stylesheet with design tokens
+│   ├── images/
+│   │   ├── globe.svg
+│   │   ├── window.svg
+│   │   ├── file.svg
+│   │   └── favicon.ico
+│   ├── js/                      # Optional: JavaScript modules
+│   └── data/                    # Optional: JSON data files
+├── docs/                        # Project documentation
+└── README.md                    # This file
 ```
 
-## 📦 Installation
+## 🎯 Quick Start
+
+**No installation required!** Simply open `index.html` in your browser:
 
 ```bash
-npm install
+# Open directly from filesystem
+open index.html
+
+# Or serve locally with Python
+python3 -m http.server 8000
+# Visit http://localhost:8000
 ```
 
-## 🛠️ Available Scripts
+## 📄 Pages
 
-### Development
-```bash
-npm run dev
+- `index.html` - Home page with feature highlights and call-to-action cards
+- `calendar.html` - Interactive Aztec calendar placeholder (ready for enhancement)
+- `guide.html` - Curated learning guides placeholder (ready for enhancement)
+- `guide-aztec-calendar.html` - Deep dive into the tonalpohualli sacred calendar
+
+## 🎨 Design System
+
+### Colors
+The `assets/css/styles.css` file includes a comprehensive color system:
+
+- **Primary Palette** - Teal/green theme (#2e8a76 primary-500)
+- **Accent Palette** - Orange (#d7721e accent-500)
+- **Secondary Palette** - Pink/magenta
+- **Neutral Palette** - Browns and earth tones
+- **Night Palette** - Dark mode colors
+
+All colors are defined as CSS custom properties and are fully responsive to light/dark mode preferences.
+
+### Typography
+- **Display Font** - Playfair Display (serif)
+- **Body Font** - Source Sans 3 (sans-serif)
+- **Mono Font** - IBM Plex Mono (monospace)
+
+### Spacing Scale
+Responsive spacing using clamp() for fluid sizing:
+- Section padding: `clamp(3.5rem, 8vw, 6.5rem)`
+- Gutter padding: `clamp(1.25rem, 3vw, 2.5rem)`
+
+## 💻 Making Changes
+
+### Editing HTML Pages
+1. Open any `.html` file in your text editor
+2. Modify content, structure, or links
+3. Save the file and refresh your browser
+
+### Updating Styles
+All styling is in `assets/css/styles.css`:
+- Edit color variables in the `:root` section
+- Modify spacing, typography, or layout utilities
+- Add new component styles
+
+To change a color globally (e.g., primary-500):
+```css
+:root {
+  --color-primary-500: #2e8a76; /* Change this */
+}
 ```
-Starts the development server at `http://localhost:3000`. The app will automatically reload on code changes.
 
-### Build
-```bash
-npm run build
+### Adding Navigation Links
+Edit the navigation in the `<header>` of each HTML file. The navigation structure is:
+```html
+<nav aria-label="Main navigation">
+  <ul>
+    <li><a href="./">Home</a></li>
+    <li><a href="./calendar.html">Calendar</a></li>
+    <li><a href="./guide.html">Guides</a></li>
+  </ul>
+</nav>
 ```
-Creates an optimized production build.
 
-### Production
-```bash
-npm start
-```
-Runs the production server.
-
-### Linting
-```bash
-npm run lint
-```
-Runs ESLint to check code quality and automatically fix issues.
-
-### Type Checking
-```bash
-npm run type-check
-```
-Performs TypeScript type checking without emitting files.
-
-### Testing
-```bash
-npm run test
-```
-Runs tests in watch mode.
-
-```bash
-npm run test:run
-```
-Runs tests once and exits.
-
-```bash
-npm run test:ui
-```
-Runs tests with interactive UI.
-
-## 🎨 Customization
-
-### Tailwind Configuration
-The custom Tailwind configuration in `tailwind.config.ts` includes:
-- **Primary Colors**: Sky blue palette for main actions
-- **Accent Colors**: Purple palette for secondary elements
-- **Custom Spacing**: Safe area support for mobile
-- **Typography**: Optimized for readability
-
-Edit the theme section to customize colors and typography for your needs.
-
-### ESLint & Prettier
-- **ESLint**: Configured with Next.js specific rules and TypeScript support
-- **Prettier**: Code formatter with 100-character line width
-- **Files**: `.eslintrc` and `.prettierrc`
+### Mobile Menu
+The mobile menu is controlled by JavaScript. It's automatically responsive - desktop shows full navigation, mobile shows a hamburger menu.
 
 ## ♿ Accessibility Features
 
-The platform includes:
+The platform is built with WCAG 2.1 AA compliance in mind:
 - **Skip Link**: Jump directly to main content (keyboard accessible)
-- **Focus Styles**: Clear visual feedback for keyboard navigation
-- **Reduced Motion**: Respects user motion preferences
+- **Focus Styles**: Clear 3px orange outline with 3px offset
+- **Reduced Motion**: Respects `prefers-reduced-motion` media query
 - **Semantic HTML**: Proper heading hierarchy and ARIA attributes
-- **Color Contrast**: WCAG AA compliant color combinations
+- **Color Contrast**: All text meets AA contrast requirements
+- **Keyboard Navigation**: All interactive elements are keyboard accessible
+- **Responsive Text**: Font sizes scale with viewport using clamp()
 
-## 🧪 Testing
-
-Tests are configured with:
-- **Vitest**: Fast unit test runner
-- **React Testing Library**: Component testing utilities
-- **jsdom**: DOM simulation for tests
-
-Test files are located alongside source files in `__tests__` directories.
-
-### Running Tests
-```bash
-# Watch mode
-npm run test
-
-# Single run
-npm run test:run
-
-# With UI
-npm run test:ui
-```
-
-## 📚 Routes
-
-- `/` - Home page with platform overview
-- `/calendar` - Learning calendar and schedule
-- `/guide` - Learning guides and resources
-
-## 🎯 Getting Started for Developers
-
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Start the dev server: `npm run dev`
-4. Open [http://localhost:3000](http://localhost:3000)
-5. Make changes to `src/` directory - changes will hot-reload
-6. Run tests: `npm run test`
-7. Check types: `npm run type-check`
-8. Lint code: `npm run lint`
-
-## 🔧 Configuration Files
-
-- **`tsconfig.json`**: TypeScript configuration
-- **`tailwind.config.ts`**: Tailwind CSS customization
-- **`eslint.config.mjs`**: ESLint configuration
-- **`.prettierrc`**: Prettier code formatting
-- **`postcss.config.mjs`**: PostCSS plugins
-- **`next.config.ts`**: Next.js configuration
-- **`vitest.config.ts`**: Vitest testing configuration
+For detailed accessibility guidance, see [docs/accessibility.md](./docs/accessibility.md)
 
 ## 📱 Browser Support
 
-- Chrome/Edge (latest)
+Tested and working on:
+- Chrome/Chromium (latest)
 - Firefox (latest)
 - Safari (latest)
+- Edge (latest)
 - Mobile browsers (iOS Safari, Chrome Mobile)
+
+All pages render correctly when opened directly from the filesystem or served via HTTP.
 
 ## 🚀 Deployment
 
-The application is optimized for deployment on Vercel or any Node.js hosting platform:
+This static bundle can be deployed to any static hosting service:
 
+### Option 1: GitHub Pages
 ```bash
-npm run build
-npm start
+# Copy files to gh-pages branch
+git checkout -b gh-pages
+# Commit files and push
+git push origin gh-pages
 ```
 
-For Vercel:
+### Option 2: Netlify
+Drag and drop the project folder onto [Netlify.com](https://netlify.com)
+
+### Option 3: Vercel
 ```bash
-vercel
+vercel deploy --prod
 ```
 
-## 📝 License
+### Option 4: Traditional Hosting
+Upload the entire project folder (all files and directories) via FTP/SFTP to your web server.
 
-This project is provided as-is for educational purposes.
+## 📝 File Size
+
+The static bundle is extremely lightweight:
+- **Total**: ~85KB (compressed)
+- **HTML**: ~80KB total for all 4 pages
+- **CSS**: ~22KB (includes design tokens and utilities)
+- **Images**: ~27KB (SVGs + favicon)
+
+## 🎯 Getting Started for Developers
+
+1. Clone the repository: `git clone <repo-url>`
+2. No dependencies to install!
+3. Open `index.html` in your browser or run `python3 -m http.server 8000`
+4. Navigate to [http://localhost:8000](http://localhost:8000)
+5. Make changes to `.html` files and refresh to see updates
+6. Modify colors and styles in `assets/css/styles.css`
+7. Add new pages by creating new `.html` files
+
+## 📊 CSS Features
+
+The `assets/css/styles.css` provides:
+
+### Design Tokens
+- **60+ Color Variables** - All color shades across 5 palettes
+- **Spacing Scale** - From 0 to 6.5rem with responsive clamp()
+- **Font Sizes** - From xs (0.75rem) to 5xl (3rem)
+- **Border Radius** - From 0 to 9999px (full)
+- **Shadows** - From sm to elevation
+- **Transitions** - Timing functions and durations
+
+### Utility Classes
+- **Layout** - flex, grid, container, min-h-screen, etc.
+- **Text** - All font sizes, weights, alignment, transforms
+- **Colors** - text-*, bg-*, border-* for all palettes
+- **Spacing** - p-*, m-*, gap-*, px-*, py-*, etc.
+- **Responsive** - md:*, sm:* prefixes for breakpoints
+
+### Components
+- **Cards** - `.card` with hover states
+- **Buttons** - `.button-primary`, `.button-secondary`, `.button-tertiary`
+- **Badges** - `.badge` for labels and tags
+- **Sections** - `.section-hero`, `.section-dark`, `.section-muted`
+
+## 🔧 Configuration Files
+
+- **`.prettierrc`**: Code formatting rules (shared across all formats)
+- **`.gitignore`**: Git ignore patterns for OS and IDE files
+
+## 📦 JavaScript
+
+All interactivity is handled by vanilla JavaScript in the HTML `<script>` tags:
+
+- **Mobile Menu Toggle** - Click/keyboard/Escape to open/close
+- **Navigation State** - Active page indicators
+- **Copyright Year** - Auto-updates current year in footer
+
+The pages are fully functional without JavaScript, with progressive enhancement for mobile menu interactivity.
 
 ## 📖 Documentation
 
 Comprehensive documentation is available to help you understand and contribute to this project:
 
-- **[CONTRIBUTING.md](./CONTRIBUTING.md)** - Contribution guidelines, development workflow, code style, and testing procedures
+- **[CONTRIBUTING.md](./CONTRIBUTING.md)** - Contribution guidelines, development workflow, code style, and best practices
 - **[docs/architecture.md](./docs/architecture.md)** - System architecture, design patterns, and component overview
-- **[docs/deployment.md](./docs/deployment.md)** - Deployment guides for various platforms (GitHub Pages, Netlify, self-hosted)
+- **[docs/deployment.md](./docs/deployment.md)** - Deployment guides for various platforms (GitHub Pages, Netlify, Vercel, self-hosted)
 - **[docs/accessibility.md](./docs/accessibility.md)** - Accessibility standards, testing procedures, and WCAG 2.1 compliance guidelines
 - **[docs/sources.md](./docs/sources.md)** - Data sources, attributions, licenses, and third-party asset documentation
-- **[docs/testing.md](./docs/testing.md)** - Testing strategies, validation procedures, and quality assurance processes
 
 ## 🤝 Contributing
 
 When contributing, please:
 1. Read [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines
-2. Run tests: `npm run test:run`
-3. Type check: `npm run type-check`
-4. Lint: `npm run lint`
-5. Follow the existing code style
-6. Write tests for new features
+2. Follow the existing code style and conventions
+3. Test changes in Chrome, Firefox, and Safari
+4. Ensure accessibility is maintained (keyboard navigation, focus states, color contrast)
+5. Keep bundle size minimal - the project should remain under 100KB
 
 ## 📞 Support
 
 For issues or questions, please refer to the [documentation](./docs/) or create an issue in the repository.
+
+## 📝 License
+
+This project is provided as-is for educational purposes.
