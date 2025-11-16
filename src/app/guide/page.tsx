@@ -8,25 +8,36 @@ export const metadata = {
 export default function Guide() {
   const guides = [
     {
+      title: "Aztec Calendar Interpretation Guide",
+      description:
+        "Learn to read and interpret the Aztec calendar system with day signs, numbers, and cultural context",
+      level: "All Levels",
+      href: "/guide/aztec-calendar",
+    },
+    {
       title: "Getting Started with Web Development",
       description: "Learn the fundamentals of HTML, CSS, and JavaScript",
       level: "Beginner",
+      href: null,
     },
     {
       title: "React Component Patterns",
       description:
         "Master advanced patterns for building scalable React applications",
       level: "Intermediate",
+      href: null,
     },
     {
       title: "Full-Stack Development with Next.js",
       description: "Build complete full-stack applications with Next.js 14",
       level: "Advanced",
+      href: null,
     },
     {
       title: "Testing Strategies",
       description: "Learn unit, integration, and end-to-end testing approaches",
       level: "Intermediate",
+      href: null,
     },
   ];
 
@@ -38,6 +49,8 @@ export default function Guide() {
         return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100";
       case "Advanced":
         return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100";
+      case "All Levels":
+        return "bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-100";
       default:
         return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100";
     }
@@ -80,9 +93,22 @@ export default function Guide() {
               <p className="text-gray-600 dark:text-gray-300">
                 {guide.description}
               </p>
-              <button className="mt-4 rounded-lg bg-accent-600 px-4 py-2 text-white transition-colors hover:bg-accent-700 dark:hover:bg-accent-800">
-                Start Learning →
-              </button>
+              {guide.href ? (
+                <Link
+                  href={guide.href}
+                  className="mt-4 inline-block rounded-lg bg-accent-600 px-4 py-2 text-white transition-colors hover:bg-accent-700 dark:hover:bg-accent-800"
+                >
+                  Start Learning →
+                </Link>
+              ) : (
+                <button
+                  disabled
+                  className="mt-4 rounded-lg bg-gray-400 px-4 py-2 text-white cursor-not-allowed"
+                  aria-label="Coming soon"
+                >
+                  Coming Soon
+                </button>
+              )}
             </div>
           ))}
         </div>
