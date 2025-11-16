@@ -96,70 +96,64 @@ export default function CycleNavigator({
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-        🔄 Cycle Navigation
-      </h3>
-      <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-        Explore the Aztec calendar day by day or jump across trecenas.
-      </p>
+    <div className="space-y-8 rounded-2xl border border-primary-100/70 bg-white p-6 shadow-sm">
+      <div className="space-y-2">
+        <h3 className="text-xl font-semibold text-[color:var(--color-ink)]">Cycle navigation</h3>
+        <p className="text-sm text-[color:var(--color-ink-soft)]">
+          Move through the calendar day by day, jump across trecenas, or select sacred pairings from the current cycle.
+        </p>
+      </div>
 
       <div className="space-y-6">
-        {/* Day Navigation */}
-        <div>
-          <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-            Day by Day
-          </h4>
-          <div className="flex gap-2">
+        <section aria-label="Day by day navigation" className="space-y-3">
+          <h4 className="text-sm font-semibold uppercase tracking-wide text-primary-700">Day by day</h4>
+          <div className="flex flex-col gap-3 sm:flex-row">
             <button
               onClick={handlePreviousDay}
-              className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors"
+              className="inline-flex flex-1 items-center justify-center rounded-full bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--color-focus)]"
               aria-label="Go to previous day"
+              type="button"
             >
-              ← Previous Day
+              ← Previous day
             </button>
             <button
               onClick={handleNextDay}
-              className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors"
+              className="inline-flex flex-1 items-center justify-center rounded-full bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--color-focus)]"
               aria-label="Go to next day"
+              type="button"
             >
-              Next Day →
+              Next day →
             </button>
           </div>
-        </div>
+        </section>
 
-        {/* Quick Jump */}
-        <div>
-          <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-            Quick Jump
-          </h4>
-          <div className="grid grid-cols-3 gap-2">
+        <section aria-label="Quick jumps" className="space-y-3">
+          <h4 className="text-sm font-semibold uppercase tracking-wide text-primary-700">Quick jump</h4>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
             {[-7, -30, -260, 7, 30, 260].map((days) => (
               <button
                 key={days}
                 onClick={() => handleJumpDays(days)}
-                className="px-3 py-2 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                className="rounded-full border border-primary-100/70 bg-white px-3 py-2 text-sm font-semibold text-primary-700 transition-colors hover:border-primary-300 hover:bg-primary-100/70 hover:text-primary-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--color-focus)]"
                 aria-label={`Jump ${days > 0 ? `forward ${days}` : `back ${Math.abs(days)}`} days`}
+                type="button"
               >
-                {days > 0 ? `+${days} days` : `${days} days`}
+                {days > 0 ? `+${days}` : days} days
               </button>
             ))}
           </div>
-        </div>
+        </section>
 
-        {/* Trecena Selector */}
         {currentTrecenaNumber && (
-          <div>
-            <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-              Trecena Selector
-            </h4>
-            <div className="bg-primary-50 dark:bg-primary-900/20 rounded-lg p-3 mb-3">
-              <p className="text-sm text-gray-700 dark:text-gray-300">
-                <span className="font-medium">Current Trecena:</span> {currentTrecenaNumber} of 20
+          <section aria-label="Trecena selector" className="space-y-4">
+            <div className="space-y-1 rounded-2xl border border-primary-100/70 bg-primary-50/60 p-4">
+              <p className="text-sm text-[color:var(--color-ink)]">
+                <span className="font-semibold text-primary-800">Current trecena:</span> {currentTrecenaNumber} of 20
               </p>
               {trecena && (
-                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                  Ruled by {trecena.rulingSign.nahuatlName} ({trecena.rulingSign.englishName} {trecena.rulingSign.glyph})
+                <p className="text-xs text-[color:var(--color-ink-soft)]">
+                  Ruled by {trecena.rulingSign.nahuatlName} ({trecena.rulingSign.englishName}{" "}
+                  {trecena.rulingSign.glyph})
                 </p>
               )}
             </div>
@@ -174,39 +168,38 @@ export default function CycleNavigator({
                     key={number}
                     onClick={() => handleJumpToTrecena(number)}
                     disabled={isCurrent}
-                    className={`
-                      px-3 py-2 text-sm rounded-lg transition-colors
-                      ${
-                        isCurrent
-                          ? "bg-primary-600 text-white cursor-default"
-                          : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-primary-100 dark:hover:bg-primary-900/30"
-                      }
-                    `}
+                    className={`rounded-xl border px-3 py-2 text-sm font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--color-focus)] ${
+                      isCurrent
+                        ? "border-primary-500 bg-primary-600 text-white"
+                        : "border-primary-100/70 bg-white text-primary-700 hover:border-primary-300 hover:bg-primary-100/70 hover:text-primary-900"
+                    }`}
                     aria-label={`Jump to trecena ${number}, ruled by ${rulingSign.nahuatlName}`}
                     aria-current={isCurrent ? "true" : undefined}
                     title={`Trecena ${number}: ${rulingSign.nahuatlName} (${rulingSign.englishName})`}
+                    type="button"
                   >
                     <div className="flex flex-col items-center">
-                      <span className="font-bold">{number}</span>
-                      <span className="text-xs">{rulingSign.glyph}</span>
+                      <span>{number}</span>
+                      <span className="text-xs" aria-hidden>
+                        {rulingSign.glyph}
+                      </span>
                     </div>
                   </button>
                 );
               })}
             </div>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
+            <p className="text-xs text-[color:var(--color-ink-soft)] text-center">
               Each trecena spans 13 days. Jumping selects the first day of the chosen trecena.
             </p>
-          </div>
+          </section>
         )}
 
-        {/* Current Trecena Days */}
         {trecena && aztecDate && (
-          <div>
-            <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-              Days in Current Trecena
+          <section aria-label="Days in current trecena" className="space-y-3">
+            <h4 className="text-sm font-semibold uppercase tracking-wide text-primary-700">
+              Days in current trecena
             </h4>
-            <div className="grid grid-cols-7 sm:grid-cols-13 gap-1">
+            <div className="grid grid-cols-5 gap-1 sm:grid-cols-13">
               {trecena.daysInTrecena.map((day, index) => {
                 const isCurrent = day.dayCount === aztecDate.tonalpohualli.dayCount;
 
@@ -214,26 +207,22 @@ export default function CycleNavigator({
                   <button
                     key={`${day.dayCount}-${index}`}
                     onClick={() => handleSelectTrecenaDay(day)}
-                    className={`
-                      text-center p-2 border rounded text-xs transition-colors
-                      ${
-                        isCurrent
-                          ? "border-primary-500 bg-primary-100 dark:bg-primary-900/40 text-primary-900 dark:text-primary-100"
-                          : "border-gray-200 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"
-                      }
-                    `}
+                    className={`rounded-lg border px-2 py-2 text-center text-xs transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--color-focus)] ${
+                      isCurrent
+                        ? "border-primary-500 bg-primary-100 text-primary-900"
+                        : "border-primary-100/70 bg-white text-primary-700 hover:border-primary-300 hover:bg-primary-100/70"
+                    }`}
                     aria-pressed={isCurrent}
                     aria-label={`Select ${day.number.value} ${day.daySign.nahuatlName}`}
+                    type="button"
                   >
-                    <div className="font-bold">
-                      {day.number.value}
-                    </div>
-                    <div>{day.daySign.glyph}</div>
+                    <div className="font-semibold">{day.number.value}</div>
+                    <div aria-hidden>{day.daySign.glyph}</div>
                   </button>
                 );
               })}
             </div>
-          </div>
+          </section>
         )}
       </div>
     </div>

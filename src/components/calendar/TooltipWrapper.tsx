@@ -63,7 +63,7 @@ export default function TooltipWrapper({
         onMouseLeave={() => setIsVisible(false)}
         onFocus={() => setIsVisible(true)}
         onBlur={() => setIsVisible(false)}
-        className="inline-flex items-center cursor-help border-b border-dashed border-gray-400 dark:border-gray-500"
+        className="inline-flex cursor-help items-center border-b border-dashed border-primary-400 text-primary-700"
         tabIndex={0}
         role="button"
         aria-label={`Show tooltip: ${content}`}
@@ -74,7 +74,7 @@ export default function TooltipWrapper({
         <div
           ref={tooltipRef}
           style={tooltipStyles}
-          className="max-w-xs px-3 py-2 text-sm text-white bg-gray-900 dark:bg-gray-700 rounded-lg shadow-lg pointer-events-none"
+          className="pointer-events-none max-w-xs rounded-xl border border-primary-100/40 bg-night-800 px-3 py-2 text-sm text-white shadow-lg"
           role="tooltip"
         >
           {content}
