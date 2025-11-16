@@ -4,16 +4,44 @@ import Calendar from "../page";
 
 // Mock the Aztec calendar hooks to avoid client-side rendering issues
 vi.mock("@/lib/aztec-calendar", () => ({
+  daySigns: Array(20).fill(null).map((_, i) => ({
+    nahuatlName: `Sign${i + 1}`,
+    englishName: `English${i + 1}`,
+    glyph: "🌟",
+    position: i + 1,
+    pronunciation: `pronunciation-${i + 1}`,
+    meaning: `Meaning for sign ${i + 1}`,
+    direction: "East",
+    deity: `Deity${i + 1}`
+  })),
+  tonalpohualliNumbers: Array(13).fill(null).map((_, i) => ({
+    value: i + 1,
+    nahuatlName: `Number${i + 1}`,
+    meaning: `Meaning for number ${i + 1}`,
+    gender: i % 2 === 0 ? "masculine" : "feminine"
+  })),
+  xiuhpohualliMonths: Array(18).fill(null).map((_, i) => ({
+    nahuatlName: `Month${i + 1}`,
+    englishName: `English Month ${i + 1}`,
+    days: 20,
+    position: i + 1,
+    season: "Season",
+    patron: `Patron${i + 1}`,
+    agricultural: `Agriculture info ${i + 1}`
+  })),
   useAztecDate: () => ({
     aztecDate: {
       tonalpohualli: {
-        number: { value: 4 },
+        number: { value: 4, nahuatlName: "Nahui", meaning: "Four", gender: "feminine" },
         daySign: {
           nahuatlName: "Ehecatl",
           englishName: "Wind",
           glyph: "💨",
           pronunciation: "eh-HEH-katl",
-          meaning: "The life-giving wind, breath of life, communication and movement"
+          meaning: "The life-giving wind, breath of life, communication and movement",
+          position: 2,
+          direction: "North",
+          deity: "Quetzalcoatl"
         },
         dayCount: 102
       },
@@ -22,7 +50,11 @@ vi.mock("@/lib/aztec-calendar", () => ({
         month: {
           nahuatlName: "Ochpaniztli",
           englishName: "Sweeping",
-          season: "Autumn"
+          season: "Autumn",
+          days: 20,
+          position: 12,
+          patron: "Toci",
+          agricultural: "Harvest"
         },
         dayOfYear: 218,
         isNemontemi: false
@@ -38,11 +70,13 @@ vi.mock("@/lib/aztec-calendar", () => ({
       trecenaNumber: 8,
       rulingSign: {
         nahuatlName: "Coatl",
-        englishName: "Serpent"
+        englishName: "Serpent",
+        meaning: "Serpent meaning",
+        glyph: "🐍"
       },
       daysInTrecena: Array(13).fill(null).map((_, i) => ({
-        number: { value: i + 1 },
-        daySign: { glyph: "🐍" },
+        number: { value: i + 1, nahuatlName: `Num${i + 1}`, meaning: "meaning" },
+        daySign: { glyph: "🐍", nahuatlName: "Coatl", englishName: "Serpent", position: 5 },
         dayCount: i + 1
       }))
     },
@@ -54,7 +88,9 @@ vi.mock("@/lib/aztec-calendar", () => ({
       nahuatlName: `Sign${i + 1}`,
       englishName: `English${i + 1}`,
       glyph: "🌟",
-      position: i + 1
+      position: i + 1,
+      pronunciation: `pronunciation-${i + 1}`,
+      meaning: `Meaning for sign ${i + 1}`
     })),
     isLoading: false
   })
@@ -75,7 +111,7 @@ describe("Calendar Page", () => {
 
   it("renders Aztec calendar section", () => {
     render(<Calendar />);
-    expect(screen.getByText("🌟 Aztec Calendar System")).toBeTruthy();
+    expect(screen.getByText("🌟 Aztec Calendar Details")).toBeTruthy();
   });
 
   it("renders upcoming events", () => {
