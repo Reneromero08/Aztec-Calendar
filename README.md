@@ -186,15 +186,27 @@ vercel
 
 This project is provided as-is for educational purposes.
 
+## 📖 Documentation
+
+Comprehensive documentation is available to help you understand and contribute to this project:
+
+- **[CONTRIBUTING.md](./CONTRIBUTING.md)** - Contribution guidelines, development workflow, code style, and testing procedures
+- **[docs/architecture.md](./docs/architecture.md)** - System architecture, design patterns, and component overview
+- **[docs/deployment.md](./docs/deployment.md)** - Deployment guides for various platforms (GitHub Pages, Netlify, self-hosted)
+- **[docs/accessibility.md](./docs/accessibility.md)** - Accessibility standards, testing procedures, and WCAG 2.1 compliance guidelines
+- **[docs/sources.md](./docs/sources.md)** - Data sources, attributions, licenses, and third-party asset documentation
+- **[docs/testing.md](./docs/testing.md)** - Testing strategies, validation procedures, and quality assurance processes
+
 ## 🤝 Contributing
 
 When contributing, please:
-1. Run tests: `npm run test:run`
-2. Type check: `npm run type-check`
-3. Lint: `npm run lint`
-4. Follow the existing code style
-5. Write tests for new features
+1. Read [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines
+2. Run tests: `npm run test:run`
+3. Type check: `npm run type-check`
+4. Lint: `npm run lint`
+5. Follow the existing code style
+6. Write tests for new features
 
 ## 📞 Support
 
-For issues or questions, please refer to the documentation or create an issue in the repository.
+For issues or questions, please refer to the [documentation](./docs/) or create an issue in the repository.
