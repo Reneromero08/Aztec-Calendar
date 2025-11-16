@@ -19,9 +19,7 @@ export default function DateLookupForm({
   onDateChange,
   onValidationError,
 }: DateLookupFormProps) {
-  const [inputValue, setInputValue] = useState(
-    selectedDate.toISOString().split("T")[0]
-  );
+  const [inputValue, setInputValue] = useState(selectedDate.toISOString().split("T")[0]);
 
   useEffect(() => {
     const nextValue = selectedDate.toISOString().split("T")[0];
@@ -55,23 +53,18 @@ export default function DateLookupForm({
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-        📅 Date Lookup
-      </h3>
-      <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-        Enter a Gregorian date to see its Aztec calendar equivalent.
+    <div className="rounded-2xl border border-primary-100/70 bg-white p-6 shadow-sm">
+      <h3 className="text-xl font-semibold text-[color:var(--color-ink)]">Date lookup</h3>
+      <p className="mt-2 text-sm text-[color:var(--color-ink-soft)]">
+        Enter a Gregorian date to discover its Aztec calendar equivalent.
       </p>
 
-      <div className="space-y-4">
-        <div>
-          <label
-            htmlFor="date-input"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-          >
-            Select Date
+      <div className="mt-5 space-y-4">
+        <div className="space-y-2">
+          <label htmlFor="date-input" className="block text-sm font-semibold text-[color:var(--color-ink)]">
+            Select date
           </label>
-          <div className="flex gap-2">
+          <div className="flex flex-col gap-3 sm:flex-row">
             <input
               id="date-input"
               type="date"
@@ -79,13 +72,13 @@ export default function DateLookupForm({
               onChange={handleDateChange}
               min="1900-01-01"
               max="2100-12-31"
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="w-full flex-1 rounded-full border border-primary-100/70 bg-white px-4 py-2 text-sm text-[color:var(--color-ink)] transition-shadow focus:border-primary-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--color-focus)]"
               aria-describedby={error ? "date-error" : undefined}
               aria-invalid={error ? "true" : "false"}
             />
             <button
               onClick={handleTodayClick}
-              className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors"
+              className="inline-flex items-center justify-center rounded-full border border-primary-200 px-5 py-2 text-sm font-semibold text-primary-700 transition-colors hover:border-primary-300 hover:bg-primary-100/60 hover:text-primary-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--color-focus)]"
               aria-label="Set to today's date"
               type="button"
             >
@@ -93,11 +86,7 @@ export default function DateLookupForm({
             </button>
           </div>
           {error && (
-            <p
-              id="date-error"
-              className="mt-2 text-sm text-red-600 dark:text-red-400"
-              role="alert"
-            >
+            <p id="date-error" className="text-sm text-secondary-600" role="alert">
               {error}
             </p>
           )}
@@ -105,129 +94,124 @@ export default function DateLookupForm({
 
         {aztecDate && !error && (
           <div
-            className="space-y-4 pt-4 border-t border-gray-200 dark:border-gray-700"
+            className="space-y-5 rounded-2xl border border-primary-100/70 bg-primary-50/60 p-5"
             role="region"
             aria-label="Aztec calendar conversion results"
           >
-            <div className="bg-primary-50 dark:bg-primary-900/20 rounded-lg p-4 border-2 border-primary-200 dark:border-primary-800">
-              <h4 className="text-sm font-semibold text-primary-900 dark:text-primary-100 mb-2">
-                Tonalpohualli (260-day Sacred Calendar)
+            <div className="space-y-3">
+              <h4 className="text-sm font-semibold uppercase tracking-wide text-primary-700">
+                Tonalpohualli (260-day sacred calendar)
               </h4>
-              <div className="space-y-2">
-                <p className="text-2xl font-bold text-primary-700 dark:text-primary-300">
-                  {aztecDate.tonalpohualli.number.value} {aztecDate.tonalpohualli.daySign.nahuatlName}
-                </p>
-                <p className="text-sm text-gray-700 dark:text-gray-300">
-                  <span className="font-medium">
-                    {aztecDate.tonalpohualli.daySign.englishName}
-                  </span>{" "}
-                  <span className="text-lg">{aztecDate.tonalpohualli.daySign.glyph}</span>
-                </p>
-                <p className="text-xs text-gray-600 dark:text-gray-400">
-                  {aztecDate.tonalpohualli.daySign.meaning}
-                </p>
-                <div className="grid grid-cols-2 gap-2 mt-3 text-xs">
-                  <div>
-                    <span className="text-gray-500 dark:text-gray-400">Day:</span>{" "}
-                    <span className="font-medium text-gray-900 dark:text-white">
-                      {aztecDate.tonalpohualli.dayCount} of 260
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-gray-500 dark:text-gray-400">Number:</span>{" "}
-                    <span className="font-medium text-gray-900 dark:text-white">
-                      {aztecDate.tonalpohualli.number.nahuatlName}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-gray-500 dark:text-gray-400">Direction:</span>{" "}
-                    <span className="font-medium text-gray-900 dark:text-white">
-                      {aztecDate.tonalpohualli.daySign.direction || "N/A"}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-gray-500 dark:text-gray-400">Deity:</span>{" "}
-                    <span className="font-medium text-gray-900 dark:text-white">
-                      {aztecDate.tonalpohualli.daySign.deity || "N/A"}
-                    </span>
-                  </div>
+              <p className="text-2xl font-semibold text-primary-800">
+                {aztecDate.tonalpohualli.number.value} {aztecDate.tonalpohualli.daySign.nahuatlName}
+              </p>
+              <p className="text-sm text-[color:var(--color-ink-soft)]">
+                <span className="font-medium text-[color:var(--color-ink)]">
+                  {aztecDate.tonalpohualli.daySign.englishName}
+                </span>{" "}
+                <span className="text-lg" aria-hidden>
+                  {aztecDate.tonalpohualli.daySign.glyph}
+                </span>
+              </p>
+              <p className="text-xs text-[color:var(--color-ink-soft)]">
+                {aztecDate.tonalpohualli.daySign.meaning}
+              </p>
+              <dl className="grid gap-2 text-xs sm:grid-cols-2">
+                <div>
+                  <dt className="text-[color:var(--color-ink-soft)]">Day</dt>
+                  <dd className="font-semibold text-[color:var(--color-ink)]">
+                    {aztecDate.tonalpohualli.dayCount} of 260
+                  </dd>
                 </div>
-              </div>
+                <div>
+                  <dt className="text-[color:var(--color-ink-soft)]">Number</dt>
+                  <dd className="font-semibold text-[color:var(--color-ink)]">
+                    {aztecDate.tonalpohualli.number.nahuatlName}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-[color:var(--color-ink-soft)]">Direction</dt>
+                  <dd className="font-semibold text-[color:var(--color-ink)]">
+                    {aztecDate.tonalpohualli.daySign.direction || "N/A"}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-[color:var(--color-ink-soft)]">Deity</dt>
+                  <dd className="font-semibold text-[color:var(--color-ink)]">
+                    {aztecDate.tonalpohualli.daySign.deity || "N/A"}
+                  </dd>
+                </div>
+              </dl>
             </div>
 
-            <div className="bg-accent-50 dark:bg-accent-900/20 rounded-lg p-4 border-2 border-accent-200 dark:border-accent-800">
-              <h4 className="text-sm font-semibold text-accent-900 dark:text-accent-100 mb-2">
-                Xiuhpohualli (365-day Solar Calendar)
+            <div className="rounded-2xl border border-accent-100/80 bg-accent-50/80 p-4">
+              <h4 className="text-sm font-semibold uppercase tracking-wide text-accent-700">
+                Xiuhpohualli (365-day solar calendar)
               </h4>
-              <div className="space-y-2">
+              <div className="mt-3 space-y-2 text-sm">
                 {aztecDate.xiuhpohualli.isNemontemi ? (
-                  <>
-                    <p className="text-2xl font-bold text-red-700 dark:text-red-300">
+                  <div className="space-y-2">
+                    <p className="text-2xl font-semibold text-secondary-700">
                       Nemontemi Day {aztecDate.xiuhpohualli.day - 20}
                     </p>
-                    <div className="bg-red-100 dark:bg-red-900/30 rounded p-2">
-                      <p className="text-xs text-red-800 dark:text-red-200">
-                        <span className="font-semibold">Unlucky Days:</span>{" "}
-                        {aztecDate.xiuhpohualli.nemontemi?.meaning}
-                      </p>
+                    <div className="rounded-lg border border-secondary-200 bg-secondary-50/80 p-3 text-xs text-secondary-900">
+                      <span className="font-semibold">Unlucky days:</span> {aztecDate.xiuhpohualli.nemontemi?.meaning}
                     </div>
-                  </>
+                  </div>
                 ) : (
-                  <>
-                    <p className="text-2xl font-bold text-accent-700 dark:text-accent-300">
+                  <div className="space-y-2">
+                    <p className="text-2xl font-semibold text-accent-800">
                       {aztecDate.xiuhpohualli.day} {aztecDate.xiuhpohualli.month.nahuatlName}
                     </p>
-                    <p className="text-sm text-gray-700 dark:text-gray-300">
-                      <span className="font-medium">
+                    <p className="text-[color:var(--color-ink-soft)]">
+                      <span className="font-medium text-[color:var(--color-ink)]">
                         {aztecDate.xiuhpohualli.month.englishName}
                       </span>
                     </p>
                     {aztecDate.xiuhpohualli.month.season && (
-                      <p className="text-xs">
-                        <span className="inline-block bg-accent-200 dark:bg-accent-800 px-2 py-1 rounded text-accent-800 dark:text-accent-200">
-                          {aztecDate.xiuhpohualli.month.season}
-                        </span>
-                      </p>
+                      <span className="inline-flex items-center rounded-full bg-accent-200/70 px-3 py-1 text-xs font-semibold text-accent-900">
+                        {aztecDate.xiuhpohualli.month.season}
+                      </span>
                     )}
-                    <div className="grid grid-cols-2 gap-2 mt-3 text-xs">
+                    <dl className="grid gap-2 text-xs sm:grid-cols-2">
                       <div>
-                        <span className="text-gray-500 dark:text-gray-400">Day of Year:</span>{" "}
-                        <span className="font-medium text-gray-900 dark:text-white">
+                        <dt className="text-[color:var(--color-ink-soft)]">Day of year</dt>
+                        <dd className="font-semibold text-[color:var(--color-ink)]">
                           {aztecDate.xiuhpohualli.dayOfYear} of 365
-                        </span>
+                        </dd>
                       </div>
                       <div>
-                        <span className="text-gray-500 dark:text-gray-400">Month:</span>{" "}
-                        <span className="font-medium text-gray-900 dark:text-white">
+                        <dt className="text-[color:var(--color-ink-soft)]">Month</dt>
+                        <dd className="font-semibold text-[color:var(--color-ink)]">
                           {aztecDate.xiuhpohualli.month.position} of 18
-                        </span>
+                        </dd>
                       </div>
                       {aztecDate.xiuhpohualli.month.patron && (
-                        <div className="col-span-2">
-                          <span className="text-gray-500 dark:text-gray-400">Patron:</span>{" "}
-                          <span className="font-medium text-gray-900 dark:text-white">
+                        <div className="sm:col-span-2">
+                          <dt className="text-[color:var(--color-ink-soft)]">Patron</dt>
+                          <dd className="font-semibold text-[color:var(--color-ink)]">
                             {aztecDate.xiuhpohualli.month.patron}
-                          </span>
+                          </dd>
                         </div>
                       )}
-                    </div>
-                  </>
+                    </dl>
+                  </div>
                 )}
               </div>
             </div>
 
-            <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-gray-600 dark:text-gray-400">Calendar Round Year:</span>
-                <span className="font-semibold text-gray-900 dark:text-white">
+            <div className="rounded-2xl border border-primary-100/60 bg-white/80 p-4 text-xs text-[color:var(--color-ink-soft)]">
+              <div className="flex items-center justify-between">
+                <span>Calendar round year</span>
+                <span className="font-semibold text-[color:var(--color-ink)]">
                   {aztecDate.yearInRound} of 52
                 </span>
               </div>
-              <div className="flex justify-between items-center text-sm mt-1">
-                <span className="text-gray-600 dark:text-gray-400">Gregorian:</span>
-                <span className="font-semibold text-gray-900 dark:text-white">
+              <div className="mt-1 flex items-center justify-between">
+                <span>Gregorian date</span>
+                <time className="font-semibold text-[color:var(--color-ink)]">
                   {selectedDate.toLocaleDateString()}
-                </span>
+                </time>
               </div>
             </div>
           </div>

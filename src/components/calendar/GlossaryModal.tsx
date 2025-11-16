@@ -114,73 +114,67 @@ export default function GlossaryModal({ isOpen, onClose }: GlossaryModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+      className="fixed inset-0 z-[999] flex items-center justify-center bg-black/60 p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="glossary-title"
     >
       <div
         ref={modalRef}
-        className="bg-white dark:bg-gray-800 rounded-lg shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden flex flex-col"
+        className="flex w-full max-w-2xl max-h-[80vh] flex-col overflow-hidden rounded-2xl border border-primary-100/70 bg-[color:var(--color-surface-strong)] shadow-elevation"
         tabIndex={-1}
       >
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2
-            id="glossary-title"
-            className="text-2xl font-bold text-gray-900 dark:text-white"
-          >
-            📖 Calendar Glossary
+        <div className="flex items-center justify-between border-b border-primary-100/70 bg-[color:var(--color-surface-muted)]/70 px-6 py-4">
+          <h2 id="glossary-title" className="text-2xl font-semibold text-[color:var(--color-ink)]">
+            <span aria-hidden className="mr-2">📖</span>
+            Calendar glossary
           </h2>
           <button
             onClick={onClose}
-            className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-primary-100/70 text-primary-700 transition-colors hover:border-primary-300 hover:bg-primary-100/70 hover:text-primary-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--color-focus)]"
             aria-label="Close glossary"
+            type="button"
           >
             <svg
-              className="w-6 h-6"
+              className="h-5 w-5"
+              viewBox="0 0 24 24"
               fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
             >
-              <path d="M6 18L18 6M6 6l12 12" />
+              <path d="M18 6 6 18M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        <div className="overflow-y-auto p-6 space-y-4">
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+        <div className="space-y-4 overflow-y-auto px-6 py-6 text-sm text-[color:var(--color-ink-soft)]">
+          <p className="text-[color:var(--color-ink-soft)]">
             Key terms and concepts related to the Aztec calendar system.
           </p>
-
-          {glossaryTerms.map((item, index) => (
-            <div
-              key={index}
-              className="pb-4 border-b border-gray-200 dark:border-gray-700 last:border-0"
-            >
-              <div className="flex items-baseline gap-2 mb-2">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  {item.term}
-                </h3>
+          {glossaryTerms.map((item) => (
+            <div key={item.term} className="border-b border-primary-100/70 pb-4 last:border-0 last:pb-0">
+              <div className="mb-1 flex flex-wrap items-baseline gap-2">
+                <h3 className="text-lg font-semibold text-[color:var(--color-ink)]">{item.term}</h3>
                 {item.pronunciation && (
-                  <span className="text-sm text-gray-500 dark:text-gray-400 italic">
-                    ({item.pronunciation})
+                  <span className="text-xs font-medium uppercase tracking-wide text-primary-700">
+                    {item.pronunciation}
                   </span>
                 )}
               </div>
-              <p className="text-gray-700 dark:text-gray-300">{item.definition}</p>
+              <p>{item.definition}</p>
             </div>
           ))}
         </div>
 
-        <div className="p-6 border-t border-gray-200 dark:border-gray-700">
+        <div className="border-t border-primary-100/70 bg-[color:var(--color-surface-muted)]/70 px-6 py-4">
           <button
             onClick={onClose}
-            className="w-full px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors"
+            className="w-full rounded-full bg-primary-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--color-focus)]"
+            type="button"
           >
-            Close Glossary
+            Close glossary
           </button>
         </div>
       </div>

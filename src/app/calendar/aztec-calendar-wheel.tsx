@@ -62,12 +62,12 @@ export default function AztecCalendarWheel({ selectedDate, aztecDate: externalAz
 
   // Color schemes inspired by Aztec aesthetics
   const colors = {
-    primary: "rgb(14, 165, 233)", // sky-500
-    accent: "rgb(168, 85, 247)", // purple-500
-    earth: "rgb(217, 119, 6)", // amber-600
-    fire: "rgb(220, 38, 38)", // red-600
-    water: "rgb(59, 130, 246)", // blue-500
-    wind: "rgb(156, 163, 175)", // gray-400
+    primary: "rgb(46, 138, 118)", // primary-500
+    accent: "rgb(215, 114, 30)", // accent-500
+    earth: "rgb(141, 65, 16)", // accent-700
+    fire: "rgb(194, 48, 119)", // secondary-500
+    water: "rgb(101, 109, 149)", // night-500
+    wind: "rgb(137, 120, 89)", // neutral-400
   };
 
   const getColorForIndex = (index: number, total: number): string => {
@@ -379,7 +379,7 @@ export default function AztecCalendarWheel({ selectedDate, aztecDate: externalAz
 
     return (
       <div
-        className="absolute top-4 right-4 max-w-xs bg-white dark:bg-gray-800 rounded-lg shadow-xl p-4 border-2 border-primary-200 dark:border-primary-700 transition-all duration-300"
+        className="absolute top-4 right-4 max-w-xs rounded-2xl border border-primary-100/70 bg-white p-4 text-[color:var(--color-ink)] shadow-elevation transition-all duration-300"
         style={{
           animation: "fadeIn 0.3s ease-in-out",
         }}
@@ -387,30 +387,23 @@ export default function AztecCalendarWheel({ selectedDate, aztecDate: externalAz
         aria-live="polite"
       >
         <div className="mb-2">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-            {title}
-          </h3>
-          <p className="text-sm text-primary-600 dark:text-primary-400 font-semibold">
-            {subtitle}
-          </p>
+          <h3 className="text-lg font-semibold text-[color:var(--color-ink)]">{title}</h3>
+          <p className="text-sm font-semibold text-primary-700">{subtitle}</p>
         </div>
-        <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-          {description}
-        </p>
+        <p className="mb-3 text-sm text-[color:var(--color-ink-soft)]">{description}</p>
         <div className="space-y-1">
           {additionalInfo.map((info, idx) => (
             <div key={idx} className="flex justify-between text-xs">
-              <span className="text-gray-500 dark:text-gray-400">{info.label}:</span>
-              <span className="text-gray-900 dark:text-white font-medium">
-                {info.value}
-              </span>
+              <span className="text-[color:var(--color-ink-soft)]">{info.label}:</span>
+              <span className="font-semibold text-[color:var(--color-ink)]">{info.value}</span>
             </div>
           ))}
         </div>
         <button
           onClick={() => setSelectedSegment(null)}
-          className="mt-3 w-full px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 rounded hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors text-sm"
+          className="mt-3 w-full rounded-full bg-primary-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--color-focus)]"
           aria-label="Close detail panel"
+          type="button"
         >
           Close
         </button>
@@ -425,27 +418,28 @@ export default function AztecCalendarWheel({ selectedDate, aztecDate: externalAz
       style={{ maxWidth: "800px", margin: "0 auto" }}
     >
       <div className="mb-4">
-        <div className="flex items-center justify-between mb-2">
+        <div className="mb-2 flex items-center justify-between">
           <div className="flex-1 text-center">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-              Interactive Aztec Calendar Wheel
+            <h3 className="text-xl font-semibold text-[color:var(--color-ink)]">
+              Interactive Aztec calendar wheel
             </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-[color:var(--color-ink-soft)]">
               Hover or click segments to explore the calendar system
             </p>
           </div>
           <button
             onClick={() => setHighContrast(!highContrast)}
-            className="ml-4 px-3 py-2 text-xs font-medium rounded-lg border-2 transition-colors whitespace-nowrap"
+            className="ml-4 inline-flex items-center rounded-full border-2 px-3 py-2 text-xs font-semibold transition-colors whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--color-focus)]"
             style={{
-              backgroundColor: highContrast ? "rgb(14, 165, 233)" : "transparent",
-              borderColor: "rgb(14, 165, 233)",
-              color: highContrast ? "white" : "rgb(14, 165, 233)",
+              backgroundColor: highContrast ? colors.accent : "transparent",
+              borderColor: colors.accent,
+              color: highContrast ? "white" : colors.accent,
             }}
             aria-label={`${highContrast ? "Disable" : "Enable"} high contrast mode`}
             aria-pressed={highContrast}
+            type="button"
           >
-            {highContrast ? "✓ High Contrast" : "High Contrast"}
+            {highContrast ? "✓ High contrast" : "High contrast"}
           </button>
         </div>
       </div>
@@ -489,28 +483,28 @@ export default function AztecCalendarWheel({ selectedDate, aztecDate: externalAz
       </div>
 
       {/* Legend */}
-      <div className="mt-6 grid grid-cols-3 gap-4 text-center text-sm">
-        <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-          <div className="w-4 h-4 mx-auto mb-2 rounded-full" style={{ backgroundColor: colors.accent }} />
-          <p className="font-semibold text-gray-900 dark:text-white">13 Numbers</p>
-          <p className="text-xs text-gray-600 dark:text-gray-400">Inner ring</p>
+      <div className="mt-6 grid grid-cols-1 gap-4 text-center text-sm sm:grid-cols-3">
+        <div className="rounded-2xl border border-primary-100/70 bg-primary-50/70 p-3">
+          <div className="mx-auto mb-2 h-4 w-4 rounded-full" style={{ backgroundColor: colors.accent }} />
+          <p className="font-semibold text-[color:var(--color-ink)]">13 numbers</p>
+          <p className="text-xs text-[color:var(--color-ink-soft)]">Inner ring</p>
         </div>
-        <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-          <div className="w-4 h-4 mx-auto mb-2 rounded-full bg-gradient-to-r from-red-500 to-blue-500" />
-          <p className="font-semibold text-gray-900 dark:text-white">20 Day Signs</p>
-          <p className="text-xs text-gray-600 dark:text-gray-400">Middle ring</p>
+        <div className="rounded-2xl border border-primary-100/70 bg-white p-3">
+          <div className="mx-auto mb-2 h-4 w-4 rounded-full bg-gradient-to-r from-secondary-500 to-primary-500" />
+          <p className="font-semibold text-[color:var(--color-ink)]">20 day signs</p>
+          <p className="text-xs text-[color:var(--color-ink-soft)]">Middle ring</p>
         </div>
-        <div className="p-3 bg-amber-100 dark:bg-amber-900/30 rounded-lg">
-          <div className="w-4 h-4 mx-auto mb-2 rounded-full" style={{ backgroundColor: colors.earth }} />
-          <p className="font-semibold text-gray-900 dark:text-white">18 Months</p>
-          <p className="text-xs text-gray-600 dark:text-gray-400">Outer ring</p>
+        <div className="rounded-2xl border border-primary-100/70 bg-accent-50/80 p-3">
+          <div className="mx-auto mb-2 h-4 w-4 rounded-full" style={{ backgroundColor: colors.earth }} />
+          <p className="font-semibold text-[color:var(--color-ink)]">18 months</p>
+          <p className="text-xs text-[color:var(--color-ink-soft)]">Outer ring</p>
         </div>
       </div>
 
       {aztecDate && (
-        <div className="mt-4 p-4 bg-primary-50 dark:bg-primary-900/20 rounded-lg border border-primary-200 dark:border-primary-800">
-          <p className="text-center text-sm text-gray-700 dark:text-gray-300">
-            <span className="font-semibold">Selected Date:</span>{" "}
+        <div className="mt-4 rounded-2xl border border-primary-100/70 bg-primary-50/70 p-4">
+          <p className="text-center text-sm text-[color:var(--color-ink-soft)]">
+            <span className="font-semibold text-[color:var(--color-ink)]">Selected date:</span>{" "}
             {aztecDate.tonalpohualli.number.value} {aztecDate.tonalpohualli.daySign.nahuatlName} ({aztecDate.tonalpohualli.daySign.glyph})
             {" • "}
             Day {aztecDate.xiuhpohualli.day} of {aztecDate.xiuhpohualli.month.nahuatlName}
