@@ -1,34 +1,34 @@
 import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import Guide from "../page";
 
 describe("Guide Page", () => {
   it("renders the page title", () => {
     render(<Guide />);
-    expect(screen.getByText(/📚 Learning Guides/)).toBeTruthy();
+    expect(screen.getByRole("heading", { level: 1, name: /Learning Guides/ })).toBeTruthy();
   });
 
-  it("renders the page description", () => {
+  it("features the Aztec calendar guide with a direct link", () => {
     render(<Guide />);
     expect(
-      screen.getByText("Comprehensive guides to help you master essential skills")
+      screen.getByText(
+        "Learn to read and interpret the Aztec calendar system with day signs, numbers, and cultural context"
+      )
     ).toBeTruthy();
+    const link = screen.getByRole("link", { name: /Start Learning/ });
+    expect(link).toHaveAttribute("href", "/guide/aztec-calendar");
   });
 
-  it("renders all learning guides", () => {
+  it("indicates which guides are coming soon", () => {
     render(<Guide />);
-    expect(
-      screen.getByText("Getting Started with Web Development")
-    ).toBeTruthy();
-    expect(screen.getByText("React Component Patterns")).toBeTruthy();
-    expect(
-      screen.getByText("Full-Stack Development with Next.js")
-    ).toBeTruthy();
-    expect(screen.getByText("Testing Strategies")).toBeTruthy();
+    const comingSoonButtons = screen.getAllByRole("button", { name: /Coming soon/i });
+    expect(comingSoonButtons.length).toBeGreaterThan(0);
+    comingSoonButtons.forEach((button) => expect(button).toBeDisabled());
   });
 
-  it("renders difficulty levels", () => {
+  it("renders guide difficulty levels", () => {
     render(<Guide />);
+    expect(screen.getByText("All Levels")).toBeTruthy();
     expect(screen.getAllByText("Beginner").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Intermediate").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Advanced").length).toBeGreaterThan(0);
@@ -36,11 +36,11 @@ describe("Guide Page", () => {
 
   it("renders a back to home link", () => {
     render(<Guide />);
-    expect(screen.getByText("← Back to Home")).toBeTruthy();
+    expect(screen.getByRole("link", { name: "← Back to Home" })).toBeTruthy();
   });
 
   it("renders tips for effective learning section", () => {
     render(<Guide />);
-    expect(screen.getByText("Tips for Effective Learning")).toBeTruthy();
+    expect(screen.getByRole("heading", { level: 2, name: "Tips for Effective Learning" })).toBeTruthy();
   });
 });
