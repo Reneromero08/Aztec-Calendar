@@ -6,6 +6,7 @@ import {
   tonalpohualliNumbers,
   xiuhpohualliMonths,
   useAztecDate,
+  type AztecDate,
   type DaySign,
   type TonalpohualliNumber,
   type XiuhpohualliMonth,
@@ -17,13 +18,20 @@ interface SegmentInfo {
   index: number;
 }
 
-export default function AztecCalendarWheel() {
+interface AztecCalendarWheelProps {
+  selectedDate?: Date;
+  aztecDate?: AztecDate | null;
+}
+
+export default function AztecCalendarWheel({ selectedDate, aztecDate: externalAztecDate }: AztecCalendarWheelProps) {
   const [selectedSegment, setSelectedSegment] = useState<SegmentInfo | null>(null);
   const [hoveredSegment, setHoveredSegment] = useState<SegmentInfo | null>(null);
   const [dimensions, setDimensions] = useState({ width: 600, height: 600 });
   const [highContrast, setHighContrast] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const { aztecDate } = useAztecDate();
+  const { aztecDate: defaultAztecDate } = useAztecDate(selectedDate);
+
+  const aztecDate = externalAztecDate !== undefined ? externalAztecDate : defaultAztecDate;
 
   // Handle responsive sizing
   useEffect(() => {
@@ -502,7 +510,7 @@ export default function AztecCalendarWheel() {
       {aztecDate && (
         <div className="mt-4 p-4 bg-primary-50 dark:bg-primary-900/20 rounded-lg border border-primary-200 dark:border-primary-800">
           <p className="text-center text-sm text-gray-700 dark:text-gray-300">
-            <span className="font-semibold">Today:</span>{" "}
+            <span className="font-semibold">Selected Date:</span>{" "}
             {aztecDate.tonalpohualli.number.value} {aztecDate.tonalpohualli.daySign.nahuatlName} ({aztecDate.tonalpohualli.daySign.glyph})
             {" • "}
             Day {aztecDate.xiuhpohualli.day} of {aztecDate.xiuhpohualli.month.nahuatlName}
