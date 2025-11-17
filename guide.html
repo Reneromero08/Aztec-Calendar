@@ -24,6 +24,166 @@
   <link rel="icon" href="./assets/images/favicon.ico" type="image/x-icon">
   <link rel="canonical" href="https://aztec-learning.example.com/guide">
   <link rel="stylesheet" href="./assets/css/styles.css">
+  <style>
+    .guide-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .guide-card {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      border-radius: var(--radius-lg);
+      border: 2px solid var(--color-primary-200);
+      background: var(--color-surface-strong);
+      padding: 2rem;
+      transition: all var(--transition-duration-normal) var(--transition-timing-soft-out);
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+
+    .guide-card:hover {
+      border-color: var(--color-primary-400);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-4px);
+    }
+
+    .guide-card:focus-within {
+      outline: 2px solid var(--color-focus);
+      outline-offset: 2px;
+    }
+
+    .guide-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .guide-card-icon {
+      font-size: 2.5rem;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--color-primary-100), var(--color-accent-100));
+      border-radius: var(--radius-lg);
+    }
+
+    .guide-card-title {
+      font-family: var(--font-display);
+      font-size: 1.375rem;
+      font-weight: 600;
+      color: var(--color-accent-600);
+      margin: 0;
+    }
+
+    .guide-card-description {
+      font-size: 1rem;
+      line-height: var(--line-height-relaxed);
+      color: var(--color-ink);
+      margin: 0;
+      flex-grow: 1;
+    }
+
+    .guide-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      font-size: 0.875rem;
+    }
+
+    .guide-card-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--color-primary-100);
+      color: var(--color-primary-700);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-full);
+      font-weight: 500;
+    }
+
+    .guide-card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--color-primary-600);
+      font-weight: 600;
+      text-decoration: none;
+      transition: color var(--transition-duration-normal) var(--transition-timing-soft-out);
+      align-self: flex-start;
+      margin-top: 0.5rem;
+    }
+
+    .guide-card:hover .guide-card-cta {
+      color: var(--color-primary-800);
+    }
+
+    .guide-card-arrow {
+      transition: transform var(--transition-duration-normal) var(--transition-timing-soft-out);
+    }
+
+    .guide-card:hover .guide-card-arrow {
+      transform: translateX(4px);
+    }
+
+    .guides-intro {
+      background: linear-gradient(135deg, rgba(46, 138, 118, 0.08), rgba(215, 114, 30, 0.08));
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-primary-200);
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .guides-intro-content {
+      max-width: 48rem;
+    }
+
+    .guides-intro h2 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+
+    .guides-intro p {
+      margin: 0 0 1rem 0;
+      line-height: var(--line-height-relaxed);
+    }
+
+    .guides-intro p:last-child {
+      margin-bottom: 0;
+    }
+
+    .difficulty-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .difficulty-beginner {
+      background: rgba(46, 138, 118, 0.2);
+      color: var(--color-primary-700);
+    }
+
+    .difficulty-intermediate {
+      background: rgba(215, 114, 30, 0.2);
+      color: var(--color-accent-700);
+    }
+
+    .difficulty-advanced {
+      background: rgba(194, 48, 119, 0.2);
+      color: var(--color-secondary-700);
+    }
+  </style>
 </head>
 <body>
   <a href="#main-content" class="sr-only" id="skip-link">Skip to main content</a>
@@ -120,14 +280,139 @@
 
       <section class="bg-surface-strong py-section px-gutter">
         <div class="mx-auto w-full max-w-6xl">
-          <div class="rounded-2xl border border-primary-100 border-opacity-70 bg-white p-8">
-            <h2 class="text-2xl font-semibold text-ink mb-4">Available Learning Guides</h2>
-            <p class="text-ink-soft mb-6">
-              Comprehensive, structured learning paths designed to deepen your understanding of Aztec calendar systems, cultural practices, and historical contexts.
-            </p>
-            <p class="text-sm text-ink-soft">
-              Static foundation demonstrates the guide layout and navigation. Content modules, practice exercises, and interactive elements will be added progressively.
-            </p>
+          <div class="guides-intro">
+            <div class="guides-intro-content">
+              <h2 class="text-2xl font-semibold text-ink">Available Learning Guides</h2>
+              <p class="text-ink-soft">
+                Comprehensive, structured learning paths designed to deepen your understanding of Aztec calendar systems, cultural practices, and historical contexts. Each guide offers rich educational content with accessibility features and keyboard navigation.
+              </p>
+              <p class="text-sm text-ink-soft">
+                Use the guides below to explore specific topics. Whether you're beginning your journey into Aztec culture or seeking deeper knowledge, find the guide that matches your interests and learning goals.
+              </p>
+            </div>
+          </div>
+
+          <div class="guide-cards-grid">
+            <!-- The Tonalpohualli Deep Dive -->
+            <a href="./guide-aztec-calendar.html" class="guide-card">
+              <div class="guide-card-header">
+                <div class="guide-card-icon" aria-hidden="true">📅</div>
+                <div>
+                  <h3 class="guide-card-title">The Tonalpohualli</h3>
+                </div>
+              </div>
+              <p class="guide-card-description">
+                Explore the sacred 260-day ritual cycle of the Aztec calendar. Learn about the 20 day signs, 13 sacred numbers, and how they combine to create a complete cosmological system used for divination, destiny reading, and understanding personal energy.
+              </p>
+              <div class="guide-card-meta">
+                <span class="guide-card-tag difficulty-beginner">Beginner</span>
+                <span class="guide-card-tag">20 min read</span>
+              </div>
+              <span class="guide-card-cta">
+                <span>Explore Guide</span>
+                <span class="guide-card-arrow">→</span>
+              </span>
+            </a>
+
+            <!-- Xiuhpohualli and Calendar Round -->
+            <article class="guide-card" style="opacity: 0.6; pointer-events: none;">
+              <div class="guide-card-header">
+                <div class="guide-card-icon" aria-hidden="true">🌍</div>
+                <div>
+                  <h3 class="guide-card-title">The Xiuhpohualli</h3>
+                </div>
+              </div>
+              <p class="guide-card-description">
+                Understand the 365-day solar year with 18 months of 20 days and the 5 dangerous nemontemi days. Discover the agricultural significance, seasonal ceremonies, and how this calendar interacts with the tonalpohualli in the grand 52-year Calendar Round cycle.
+              </p>
+              <div class="guide-card-meta">
+                <span class="guide-card-tag difficulty-intermediate">Intermediate</span>
+                <span class="guide-card-tag">Coming Soon</span>
+              </div>
+              <span class="guide-card-cta" style="color: var(--color-ink-soft);">
+                <span>Coming Soon</span>
+              </span>
+            </article>
+
+            <!-- Deity Pantheon -->
+            <article class="guide-card" style="opacity: 0.6; pointer-events: none;">
+              <div class="guide-card-header">
+                <div class="guide-card-icon" aria-hidden="true">🙏</div>
+                <div>
+                  <h3 class="guide-card-title">Deity Pantheon</h3>
+                </div>
+              </div>
+              <p class="guide-card-description">
+                Dive deep into the rich mythology of the Aztec pantheon. Meet the major deities like Tezcatlipoca, Quetzalcoatl, and Huitzilopochtli. Learn their roles, symbols, ceremonies, and how they relate to calendar cycles and daily spiritual practice.
+              </p>
+              <div class="guide-card-meta">
+                <span class="guide-card-tag difficulty-intermediate">Intermediate</span>
+                <span class="guide-card-tag">Coming Soon</span>
+              </div>
+              <span class="guide-card-cta" style="color: var(--color-ink-soft);">
+                <span>Coming Soon</span>
+              </span>
+            </article>
+
+            <!-- Cosmology and Creation -->
+            <article class="guide-card" style="opacity: 0.6; pointer-events: none;">
+              <div class="guide-card-header">
+                <div class="guide-card-icon" aria-hidden="true">✨</div>
+                <div>
+                  <h3 class="guide-card-title">Cosmology & Creation</h3>
+                </div>
+              </div>
+              <p class="guide-card-description">
+                Explore the Aztec understanding of creation, the five suns, the nine underworlds, and the 13 heavens. Understand the fundamental beliefs about the structure of the universe and humanity's place within the cosmic order.
+              </p>
+              <div class="guide-card-meta">
+                <span class="guide-card-tag difficulty-advanced">Advanced</span>
+                <span class="guide-card-tag">Coming Soon</span>
+              </div>
+              <span class="guide-card-cta" style="color: var(--color-ink-soft);">
+                <span>Coming Soon</span>
+              </span>
+            </article>
+
+            <!-- Rituals and Ceremonies -->
+            <article class="guide-card" style="opacity: 0.6; pointer-events: none;">
+              <div class="guide-card-header">
+                <div class="guide-card-icon" aria-hidden="true">🔥</div>
+                <div>
+                  <h3 class="guide-card-title">Rituals & Ceremonies</h3>
+                </div>
+              </div>
+              <p class="guide-card-description">
+                Learn about the sacred ceremonies tied to calendar cycles, from daily observances to yearly festivals. Understand the role of ritual in Aztec society and how modern practitioners honor these traditions.
+              </p>
+              <div class="guide-card-meta">
+                <span class="guide-card-tag difficulty-advanced">Advanced</span>
+                <span class="guide-card-tag">Coming Soon</span>
+              </div>
+              <span class="guide-card-cta" style="color: var(--color-ink-soft);">
+                <span>Coming Soon</span>
+              </span>
+            </article>
+
+            <!-- Modern Practice -->
+            <article class="guide-card" style="opacity: 0.6; pointer-events: none;">
+              <div class="guide-card-header">
+                <div class="guide-card-icon" aria-hidden="true">🌱</div>
+                <div>
+                  <h3 class="guide-card-title">Modern Practice</h3>
+                </div>
+              </div>
+              <p class="guide-card-description">
+                Discover how indigenous communities and contemporary practitioners use the Aztec calendar system today. Explore personal divination practices, cultural significance, and how ancient wisdom speaks to modern challenges.
+              </p>
+              <div class="guide-card-meta">
+                <span class="guide-card-tag difficulty-intermediate">Intermediate</span>
+                <span class="guide-card-tag">Coming Soon</span>
+              </div>
+              <span class="guide-card-cta" style="color: var(--color-ink-soft);">
+                <span>Coming Soon</span>
+              </span>
+            </article>
           </div>
         </div>
       </section>

@@ -24,6 +24,283 @@
   <link rel="icon" href="./assets/images/favicon.ico" type="image/x-icon">
   <link rel="canonical" href="https://aztec-learning.example.com/guide/aztec-calendar">
   <link rel="stylesheet" href="./assets/css/styles.css">
+  <style>
+    .guide-toc {
+      position: sticky;
+      top: 6rem;
+      max-height: calc(100vh - 8rem);
+      overflow-y: auto;
+      border-left: 3px solid var(--color-primary-200);
+      padding-left: 1.5rem;
+    }
+    
+    .guide-toc-link {
+      display: block;
+      padding: 0.5rem 0;
+      font-size: 0.95rem;
+      color: var(--color-primary-600);
+      text-decoration: none;
+      transition: color var(--transition-duration-normal) var(--transition-timing-soft-out);
+      border-left: 2px solid transparent;
+      padding-left: 0.75rem;
+      margin-left: -1.5rem;
+    }
+    
+    .guide-toc-link:hover,
+    .guide-toc-link:focus {
+      color: var(--color-primary-700);
+    }
+    
+    .guide-toc-link.active {
+      color: var(--color-primary-800);
+      font-weight: 600;
+      border-left-color: var(--color-primary-600);
+    }
+    
+    .day-sign-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .number-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .month-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .card {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-primary-100);
+      background: var(--color-surface-strong);
+      padding: 1.5rem;
+      transition: all var(--transition-duration-normal) var(--transition-timing-soft-out);
+    }
+    
+    .card:hover {
+      border-color: var(--color-primary-300);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .day-sign-card {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .day-sign-glyph {
+      font-size: 3rem;
+      text-align: center;
+    }
+    
+    .day-sign-name {
+      font-family: var(--font-display);
+      font-size: 1.375rem;
+      font-weight: 600;
+      text-align: center;
+      color: var(--color-accent-600);
+    }
+    
+    .day-sign-english {
+      font-size: 0.95rem;
+      text-align: center;
+      color: var(--color-ink-soft);
+    }
+    
+    .day-sign-meaning {
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--color-ink);
+      padding: 1rem;
+      background: var(--color-surface-muted);
+      border-radius: var(--radius-base);
+    }
+    
+    .day-sign-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      font-size: 0.875rem;
+    }
+    
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    
+    .detail-label {
+      font-weight: 600;
+      color: var(--color-primary-600);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .detail-value {
+      color: var(--color-ink);
+      text-transform: capitalize;
+    }
+    
+    .associations {
+      font-size: 0.875rem;
+    }
+    
+    .associations-label {
+      font-weight: 600;
+      color: var(--color-primary-600);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+    
+    .associations-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    .association-tag {
+      display: inline-block;
+      background: var(--color-primary-100);
+      color: var(--color-primary-700);
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+    }
+    
+    .number-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .number-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--color-primary-600);
+      text-align: center;
+    }
+    
+    .number-name {
+      font-size: 1.125rem;
+      font-weight: 600;
+      text-align: center;
+      color: var(--color-accent-600);
+    }
+    
+    .number-meaning {
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--color-ink);
+      padding: 0.75rem;
+      background: var(--color-surface-muted);
+      border-radius: var(--radius-base);
+    }
+    
+    .month-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .month-name {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--color-accent-600);
+    }
+    
+    .month-english {
+      font-size: 0.95rem;
+      color: var(--color-ink-soft);
+    }
+    
+    .month-meaning {
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--color-ink);
+      padding: 0.75rem;
+      background: var(--color-surface-muted);
+      border-radius: var(--radius-base);
+    }
+    
+    .grid-2-col {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+      font-size: 0.875rem;
+    }
+    
+    .callout {
+      border-left: 4px solid var(--color-accent-500);
+      background: rgba(215, 114, 30, 0.05);
+      padding: 1rem;
+      border-radius: var(--radius-base);
+      margin: 1.5rem 0;
+    }
+    
+    .callout-title {
+      font-weight: 600;
+      color: var(--color-accent-700);
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+    
+    .callout-text {
+      color: var(--color-ink);
+      font-size: 0.95rem;
+      line-height: var(--line-height-relaxed);
+    }
+    
+    .section-intro {
+      font-size: 1.125rem;
+      line-height: var(--line-height-relaxed);
+      color: var(--color-ink);
+      margin-bottom: 2rem;
+    }
+    
+    .guide-layout {
+      display: grid;
+      grid-template-columns: 1fr 250px;
+      gap: 3rem;
+    }
+    
+    @media (max-width: 1024px) {
+      .guide-layout {
+        grid-template-columns: 1fr;
+      }
+      
+      .guide-toc {
+        position: static;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        border: none;
+        padding: 0;
+        margin-bottom: 2rem;
+        border-bottom: 2px solid var(--color-primary-100);
+        padding-bottom: 1.5rem;
+      }
+      
+      .guide-toc-link {
+        padding: 0;
+        margin: 0;
+        border: none;
+        font-size: 0.95rem;
+        flex-shrink: 0;
+      }
+    }
+  </style>
 </head>
 <body>
   <a href="#main-content" class="sr-only" id="skip-link">Skip to main content</a>
@@ -120,21 +397,165 @@
 
       <section class="bg-surface-strong py-section px-gutter">
         <div class="mx-auto w-full max-w-6xl">
-          <div class="rounded-2xl border border-primary-100 border-opacity-70 bg-white p-8">
-            <h2 class="text-2xl font-semibold text-ink mb-4">The Sacred Calendar</h2>
-            <p class="text-ink-soft mb-6">
-              The tonalpohualli is a 260-day ritual and divinatory calendar central to Mesoamerican cultures. It combines 20 day signs with 13 number coefficients in a sacred round.
-            </p>
-            <p class="text-sm text-ink-soft mb-4">
-              This deep-dive guide explores:
-            </p>
-            <ul class="text-sm text-ink-soft space-y-2 ml-4">
-              <li>• The 20 day signs and their symbolic meanings</li>
-              <li>• The significance of 13 in Aztec cosmology</li>
-              <li>• How trecenas (13-day periods) structure the calendar</li>
-              <li>• The role of the tonalpohualli in divination and cultural practice</li>
-              <li>• Modern applications and continued cultural significance</li>
-            </ul>
+          <div class="guide-layout">
+            <div>
+              <!-- Overview Section -->
+              <section id="overview" class="mb-12">
+                <h2 class="text-3xl font-semibold text-ink mb-4">The Sacred Calendar</h2>
+                <p class="section-intro">
+                  The tonalpohualli is a 260-day ritual and divinatory calendar central to Mesoamerican cultures. It combines 20 day signs with 13 number coefficients in a sacred round, creating a system used for determining auspicious dates, naming children, and understanding personal destinies.
+                </p>
+
+                <div class="callout">
+                  <div class="callout-title">Cultural Significance</div>
+                  <div class="callout-text">
+                    The tonalpohualli was used throughout Mesoamerica by the Aztecs, Maya, and other indigenous cultures for divination, religious ceremonies, and understanding the cosmic order. Each day carries unique energy and meaning.
+                  </div>
+                </div>
+
+                <p class="mb-4">
+                  This guide explores the structure and meaning of the tonalpohualli, including:
+                </p>
+                <ul class="space-y-2 ml-4 text-ink">
+                  <li>• The 20 day signs and their symbolic meanings</li>
+                  <li>• The significance of 13 in Aztec cosmology</li>
+                  <li>• How trecenas (13-day periods) structure the calendar</li>
+                  <li>• The role of the tonalpohualli in divination and cultural practice</li>
+                  <li>• Modern applications and continued cultural significance</li>
+                </ul>
+              </section>
+
+              <!-- Day Signs Section -->
+              <section id="day-signs" class="mb-12">
+                <h2 class="text-3xl font-semibold text-ink mb-2">The 20 Day Signs</h2>
+                <p class="text-ink-soft mb-6">
+                  Each day in the tonalpohualli is associated with one of 20 day signs, each with its own glyph, meaning, and cultural significance. These signs represent different aspects of nature and human experience.
+                </p>
+
+                <div class="callout">
+                  <div class="callout-title">Day Sign Meanings</div>
+                  <div class="callout-text">
+                    Day signs are not merely symbols—they represent fundamental forces in Aztec cosmology. The order and combination of signs create a continuous cycle that connects human life to natural and cosmic cycles.
+                  </div>
+                </div>
+
+                <div class="day-sign-grid" id="day-signs-container">
+                  <!-- Day sign cards will be generated here -->
+                </div>
+              </section>
+
+              <!-- Sacred Numbers Section -->
+              <section id="numbers" class="mb-12">
+                <h2 class="text-3xl font-semibold text-ink mb-2">The 13 Sacred Numbers</h2>
+                <p class="text-ink-soft mb-6">
+                  In the tonalpohualli, each day sign is paired with a number coefficient from 1 to 13. These numbers hold profound significance in Aztec spirituality, with 13 representing completion and the highest cosmic level.
+                </p>
+
+                <div class="callout">
+                  <div class="callout-title">The Number 13 in Aztec Cosmology</div>
+                  <div class="callout-text">
+                    Thirteen represents the highest heaven in Aztec cosmology (the 13 heavens above the earth). The cycle of 13 is fundamental to the structure of time and is considered sacred and complete.
+                  </div>
+                </div>
+
+                <div class="number-grid" id="numbers-container">
+                  <!-- Number cards will be generated here -->
+                </div>
+              </section>
+
+              <!-- Xiuhpohualli Section -->
+              <section id="months" class="mb-12">
+                <h2 class="text-3xl font-semibold text-ink mb-2">The Xiuhpohualli (Solar Year)</h2>
+                <p class="text-ink-soft mb-6">
+                  While the tonalpohualli is a 260-day calendar, it works in conjunction with the xiuhpohualli—the 365-day solar year divided into 18 months of 20 days each, plus 5 unlucky days (nemontemi). Each month has agricultural, religious, and ceremonial significance.
+                </p>
+
+                <div class="callout">
+                  <div class="callout-title">The Calendar Round</div>
+                  <div class="callout-text">
+                    When the 260-day tonalpohualli and 365-day xiuhpohualli align, they create the Calendar Round—a 52-year cycle marking the completion of major temporal cycles. The Aztecs believed the world could end at the completion of a Calendar Round.
+                  </div>
+                </div>
+
+                <div class="month-grid" id="months-container">
+                  <!-- Month cards will be generated here -->
+                </div>
+              </section>
+
+              <!-- Nemontemi Section -->
+              <section id="nemontemi" class="mb-12">
+                <h2 class="text-3xl font-semibold text-ink mb-2">The Nemontemi: Days Outside Time</h2>
+                <p class="text-ink-soft mb-6">
+                  At the end of each xiuhpohualli year, 5 extra days (nemontemi) exist outside the regular 18-month system. These days were considered dangerous and unlucky, requiring special rituals and caution.
+                </p>
+
+                <div class="card">
+                  <h3 class="text-xl font-semibold text-accent-600 mb-3">The Five Empty Days</h3>
+                  <p class="text-ink mb-4">
+                    The nemontemi represented a dangerous liminal space—a time when normal rules didn't apply. People would avoid important decisions, perform purification rituals, and prepare for the renewal of the new year.
+                  </p>
+                  <div class="grid-2-col">
+                    <div class="detail-item">
+                      <div class="detail-label">Days</div>
+                      <div class="detail-value">5 days</div>
+                    </div>
+                    <div class="detail-item">
+                      <div class="detail-label">Meaning</div>
+                      <div class="detail-value">Empty/Unlucky</div>
+                    </div>
+                    <div class="detail-item">
+                      <div class="detail-label">Season</div>
+                      <div class="detail-value">Year transition</div>
+                    </div>
+                    <div class="detail-item">
+                      <div class="detail-label">Key Theme</div>
+                      <div class="detail-value">Purification</div>
+                    </div>
+                  </div>
+                  <div style="margin-top: 1rem;">
+                    <div class="detail-label" style="margin-bottom: 0.5rem;">Practices During Nemontemi</div>
+                    <ul class="space-y-2 text-sm text-ink">
+                      <li>• Avoid important decisions and new enterprises</li>
+                      <li>• Perform purification rituals and ceremonies</li>
+                      <li>• Stay close to home and family</li>
+                      <li>• Fast or engage in spiritual practices</li>
+                      <li>• Prepare for the new year and rebirth</li>
+                      <li>• Honor and communicate with ancestors</li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Integration Section -->
+              <section id="integration" class="mb-12">
+                <h2 class="text-3xl font-semibold text-ink mb-4">Understanding Calendar Integration</h2>
+                <p class="text-ink mb-4">
+                  The tonalpohualli and xiuhpohualli work together as an integrated system. While the tonalpohualli tracks the 260-day cycle for divination and personal meaning, the xiuhpohualli marks the seasons and agricultural calendar. Together, they create a complete cosmological and practical timekeeping system.
+                </p>
+
+                <div class="callout">
+                  <div class="callout-title">Modern Relevance</div>
+                  <div class="callout-text">
+                    Today, indigenous communities and cultural enthusiasts continue to use and study the Aztec calendars. They provide insights into indigenous cosmology, offer spiritual guidance, and serve as powerful symbols of cultural identity and continuity.
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <!-- Table of Contents Sidebar -->
+            <aside aria-label="Table of contents" class="guide-toc">
+              <nav>
+                <p class="text-sm font-semibold text-primary-700 uppercase tracking-wide mb-3">On this page</p>
+                <ul class="space-y-0">
+                  <li><a href="#overview" class="guide-toc-link active" data-section="overview">Overview</a></li>
+                  <li><a href="#day-signs" class="guide-toc-link" data-section="day-signs">Day Signs</a></li>
+                  <li><a href="#numbers" class="guide-toc-link" data-section="numbers">Sacred Numbers</a></li>
+                  <li><a href="#months" class="guide-toc-link" data-section="months">Xiuhpohualli</a></li>
+                  <li><a href="#nemontemi" class="guide-toc-link" data-section="nemontemi">Nemontemi</a></li>
+                  <li><a href="#integration" class="guide-toc-link" data-section="integration">Integration</a></li>
+                </ul>
+              </nav>
+            </aside>
           </div>
         </div>
       </section>
@@ -235,6 +656,7 @@
     </footer>
   </div>
 
+  <script src="./assets/js/guide-data.js" type="module"></script>
   <script>
     // Mobile menu toggle
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -281,6 +703,41 @@
       const year = new Date().getFullYear();
       copyrightEl.textContent = `© ${year} Aztec Learning Collective. Crafted for inclusive, curious learners.`;
     }
+
+    // Table of contents active link tracking
+    const tocLinks = document.querySelectorAll('.guide-toc-link');
+    const sections = document.querySelectorAll('section[id]');
+
+    function updateActiveTocLink() {
+      let currentSection = null;
+
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 150) {
+          currentSection = section.id;
+        }
+      });
+
+      tocLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.dataset.section === currentSection) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveTocLink);
+    updateActiveTocLink();
+
+    // Keyboard navigation for TOC links
+    tocLinks.forEach(link => {
+      link.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          link.click();
+        }
+      });
+    });
   </script>
 </body>
 </html>
