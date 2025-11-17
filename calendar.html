@@ -119,13 +119,141 @@
       </section>
 
       <section class="bg-surface-strong py-section px-gutter">
-        <div class="mx-auto w-full max-w-6xl">
+        <div class="mx-auto w-full max-w-6xl space-y-12">
+          <!-- Date Lookup Section -->
           <div class="rounded-2xl border border-primary-100 border-opacity-70 bg-white p-8">
-            <h2 class="text-2xl font-semibold text-ink mb-4">Calendar Tools</h2>
-            <p class="text-ink-soft mb-6">This page is ready for interactive calendar components and date lookup tools.</p>
-            <p class="text-sm text-ink-soft">
-              Static content demonstrates the layout, navigation, and styling. JavaScript enhancements will bring interactivity to date selection, trecena exploration, and calendar visualisations.
-            </p>
+            <h2 class="text-2xl font-semibold text-ink mb-6">Date Lookup</h2>
+            
+            <form id="date-lookup-form" class="space-y-4">
+              <div class="flex flex-col sm:flex-row gap-4">
+                <div class="flex-1">
+                  <label for="date-input" class="block text-sm font-medium text-ink-soft mb-2">
+                    Select a Date
+                  </label>
+                  <input 
+                    type="date" 
+                    id="date-input" 
+                    name="date-input"
+                    class="w-full px-4 py-2 border border-primary-200 rounded-lg focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[var(--color-focus)]"
+                    required
+                  >
+                </div>
+                <div class="flex items-end gap-3">
+                  <button 
+                    type="submit" 
+                    class="px-6 py-2 bg-primary-600 text-white rounded-lg font-medium transition-colors hover:bg-primary-700 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[var(--color-focus)]"
+                  >
+                    Calculate Aztec Date
+                  </button>
+                  <button 
+                    type="button" 
+                    id="today-button"
+                    class="px-6 py-2 bg-accent-600 text-white rounded-lg font-medium transition-colors hover:bg-accent-700 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[var(--color-focus)]"
+                  >
+                    Today
+                  </button>
+                </div>
+              </div>
+              
+              <div id="validation-message" class="hidden" role="alert" aria-live="polite"></div>
+            </form>
+            
+            <div id="date-result" class="hidden mt-6">
+              <!-- Results will be populated here -->
+            </div>
+          </div>
+
+          <!-- Interactive Calendar Wheel -->
+          <div class="rounded-2xl border border-primary-100 border-opacity-70 bg-white p-8">
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-2xl font-semibold text-ink">Interactive Calendar Wheel</h2>
+              <div class="flex items-center gap-4">
+                <button 
+                  id="high-contrast-toggle"
+                  class="px-4 py-2 text-sm border border-primary-200 rounded-lg transition-colors hover:bg-primary-100 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[var(--color-focus)]"
+                  aria-pressed="false"
+                >
+                  High Contrast
+                </button>
+              </div>
+            </div>
+            
+            <div class="flex justify-center">
+              <div id="calendar-wheel-container" class="relative" style="max-width: 800px; width: 100%;">
+                <!-- SVG wheel will be rendered here -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Cycle Navigation -->
+          <div class="rounded-2xl border border-primary-100 border-opacity-70 bg-white p-8">
+            <h2 class="text-2xl font-semibold text-ink mb-6">Cycle Navigation</h2>
+            
+            <div class="grid gap-6 md:grid-cols-2">
+              <!-- Day Navigation -->
+              <div>
+                <h3 class="text-lg font-medium text-ink mb-4">Day Navigation</h3>
+                <div class="flex items-center gap-4">
+                  <button 
+                    id="prev-day"
+                    class="p-2 border border-primary-200 rounded-lg transition-colors hover:bg-primary-100 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[var(--color-focus)]"
+                    aria-label="Previous day"
+                  >
+                    ←
+                  </button>
+                  <div class="flex-1 text-center">
+                    <div id="current-day-display" class="font-medium">
+                      <!-- Current day will be displayed here -->
+                    </div>
+                  </div>
+                  <button 
+                    id="next-day"
+                    class="p-2 border border-primary-200 rounded-lg transition-colors hover:bg-primary-100 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[var(--color-focus)]"
+                    aria-label="Next day"
+                  >
+                    →
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Quick Jump -->
+              <div>
+                <h3 class="text-lg font-medium text-ink mb-4">Quick Jump</h3>
+                <div class="grid grid-cols-3 gap-2">
+                  <button class="quick-jump px-3 py-2 text-sm border border-primary-200 rounded-lg transition-colors hover:bg-primary-100 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[var(--color-focus)]" data-offset="-7">-1 Week</button>
+                  <button class="quick-jump px-3 py-2 text-sm border border-primary-200 rounded-lg transition-colors hover:bg-primary-100 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[var(--color-focus)]" data-offset="-30">-1 Month</button>
+                  <button class="quick-jump px-3 py-2 text-sm border border-primary-200 rounded-lg transition-colors hover:bg-primary-100 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[var(--color-focus)]" data-offset="0">Today</button>
+                  <button class="quick-jump px-3 py-2 text-sm border border-primary-200 rounded-lg transition-colors hover:bg-primary-100 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[var(--color-focus)]" data-offset="30">+1 Month</button>
+                  <button class="quick-jump px-3 py-2 text-sm border border-primary-200 rounded-lg transition-colors hover:bg-primary-100 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[var(--color-focus)]" data-offset="7">+1 Week</button>
+                  <button class="quick-jump px-3 py-2 text-sm border border-primary-200 rounded-lg transition-colors hover:bg-primary-100 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[var(--color-focus)]" data-offset="365">+1 Year</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trecena Explorer -->
+          <div class="rounded-2xl border border-primary-100 border-opacity-70 bg-white p-8">
+            <h2 class="text-2xl font-semibold text-ink mb-6">Trecena Explorer</h2>
+            
+            <div class="mb-6">
+              <label for="trecena-select" class="block text-sm font-medium text-ink-soft mb-2">
+                Select Trecena (13-day period)
+              </label>
+              <select 
+                id="trecena-select" 
+                class="w-full px-4 py-2 border border-primary-200 rounded-lg focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[var(--color-focus)]"
+              >
+                <!-- Options will be populated here -->
+              </select>
+            </div>
+            
+            <div id="trecena-info" class="mb-6">
+              <!-- Trecena info will be displayed here -->
+            </div>
+            
+            <div id="trecena-days-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+              <!-- Trecena days will be displayed here -->
+            </div>
           </div>
         </div>
       </section>
@@ -226,6 +354,8 @@
     </footer>
   </div>
 
+  <script type="module" src="./assets/js/calendar-page.js"></script>
+  
   <script>
     // Mobile menu toggle
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
