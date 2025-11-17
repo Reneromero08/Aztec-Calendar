@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aztec Calendar Demo</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .demo-section {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .calendar-result {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 4px;
+      margin: 1rem 0;
+      border-left: 4px solid #2e8a76;
+    }
+    .trecena-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+    .trecena-day {
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      text-align: center;
+    }
+    .trecena-day.today {
+      background: #2e8a76;
+      color: white;
+      font-weight: bold;
+    }
+    form {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+    input[type="date"] {
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      background: #2e8a76;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #246b5a;
+    }
+    .console-output {
+      background: #1e1e1e;
+      color: #00ff00;
+      padding: 1rem;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.875rem;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-section">
+    <h1>Aztec Calendar Module Demo</h1>
+    <p>This page demonstrates the browser-compatible Aztec calendar calculations.</p>
+    
+    <h2>Current Date</h2>
+    <div id="current-date" class="calendar-result">
+      Loading...
+    </div>
+
+    <h2>Date Calculator</h2>
+    <form id="date-form">
+      <input type="date" id="date-input" value="">
+      <button type="submit">Calculate Aztec Date</button>
+    </form>
+    <div id="date-result" class="calendar-result" style="display: none;">
+      Results will appear here...
+    </div>
+
+    <h2>Current Trecena</h2>
+    <div id="current-trecena">
+      Loading...
+    </div>
+
+    <h2>Smoke Test Output</h2>
+    <button id="run-tests">Run Smoke Tests</button>
+    <div id="console-output" class="console-output">
+      Click "Run Smoke Tests" to see the test results...
+    </div>
+  </div>
+
+  <script type="module">
+    import { 
+      calculateAztecDate, 
+      calculateTonalpohualli, 
+      calculateXiuhpohualli, 
+      getCurrentTrecena,
+      validateDate,
+      aztecToGregorian,
+      formatDate,
+      CALENDAR_INFO
+    } from './aztec-calendar-core.js';
+
+    import { runSmokeTests } from './aztec-calculator-smoke.js';
+
+    // Current date display
+    function updateCurrentDate() {
+      const today = new Date();
+      const aztec = calculateAztecDate(today);
+      const trecena = getCurrentTrecena(today);
+      
+      document.getElementById('current-date').innerHTML = `
+        <strong>Gregorian:</strong> ${formatDate(today).long}<br>
+        <strong>Sacred Calendar:</strong> ${aztec.summary.sacred}<br>
+        <strong>Solar Calendar:</strong> ${aztec.summary.solar}<br>
+        <strong>Calendar Round Year:</strong> ${aztec.calendarRoundYear}/52<br>
+        <strong>Current Trecena:</strong> ${trecena.summary}<br>
+        <strong>Day in Trecena:</strong> ${trecena.dayInTrecena}/13
+      `;
+    }
+
+    // Date form handler
+    document.getElementById('date-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const dateInput = document.getElementById('date-input').value;
+      if (!dateInput) return;
+      
+      const date = new Date(dateInput);
+      const resultDiv = document.getElementById('date-result');
+      
+      try {
+        const validation = validateDate(date);
+        if (!validation.isValid) {
+          resultDiv.innerHTML = `<strong>Error:</strong> ${validation.error}`;
+          resultDiv.style.display = 'block';
+          return;
+        }
+        
+        const aztec = calculateAztecDate(date);
+        const trecena = getCurrentTrecena(date);
+        
+        resultDiv.innerHTML = `
+          <strong>Gregorian:</strong> ${formatDate(date).long}<br>
+          <strong>Sacred Calendar:</strong> ${aztec.summary.sacred}<br>
+          <strong>Solar Calendar:</strong> ${aztec.summary.solar}<br>
+          <strong>Calendar Round Year:</strong> ${aztec.calendarRoundYear}/52<br>
+          <strong>Trecena:</strong> ${trecena.summary}<br>
+          <strong>Day in Trecena:</strong> ${trecena.dayInTrecena}/13<br>
+          <strong>Day Sign Meaning:</strong> ${aztec.tonalpohualli.daySignMeaning}<br>
+          <strong>Number Meaning:</strong> ${aztec.tonalpohualli.numberMeaning}
+        `;
+        resultDiv.style.display = 'block';
+      } catch (error) {
+        resultDiv.innerHTML = `<strong>Error:</strong> ${error.message}`;
+        resultDiv.style.display = 'block';
+      }
+    });
+
+    // Current trecena display
+    function updateCurrentTrecena() {
+      const today = new Date();
+      const trecena = getCurrentTrecena(today);
+      
+      let daysHtml = '<div class="trecena-grid">';
+      trecena.days.forEach(day => {
+        const isToday = day.isToday ? 'today' : '';
+        daysHtml += `
+          <div class="trecena-day ${isToday}">
+            <div>${day.number.number}</div>
+            <div>${day.daySign.name}</div>
+            <div>${day.daySign.glyph}</div>
+          </div>
+        `;
+      });
+      daysHtml += '</div>';
+      
+      document.getElementById('current-trecena').innerHTML = `
+        <p><strong>${trecena.summary}</strong></p>
+        <p><strong>Ruling Deity:</strong> ${trecena.rulingDeity}</p>
+        <p><strong>Today is day ${trecena.dayInTrecena} of 13</strong></p>
+        ${daysHtml}
+      `;
+    }
+
+    // Smoke test runner
+    document.getElementById('run-tests').addEventListener('click', () => {
+      const output = document.getElementById('console-output');
+      output.textContent = 'Running smoke tests...\n\n';
+      
+      // Capture console.log output
+      const originalLog = console.log;
+      const logs = [];
+      
+      console.log = (...args) => {
+        logs.push(args.join(' '));
+        originalLog(...args);
+      };
+      
+      // Override the smoke test to capture output
+      const originalRunSmokeTests = runSmokeTests;
+      window.customRunSmokeTests = () => {
+        console.log('🌅 Aztec Calendar Core - Smoke Tests');
+        console.log('=====================================\n');
+
+        // Calendar information
+        console.log('📋 Calendar Information:');
+        console.log(`Tonalpohualli: ${CALENDAR_INFO.tonalpohualli.days} days - ${CALENDAR_INFO.tonalpohualli.description}`);
+        console.log(`Xiuhpohualli: ${CALENDAR_INFO.xiuhpohualli.days} days - ${CALENDAR_INFO.xiuhpohualli.description}`);
+        console.log(`Calendar Round: ${CALENDAR_INFO.calendarRound.years} years (${CALENDAR_INFO.calendarRound.days} days)`);
+        console.log('');
+
+        // Current date
+        const today = new Date();
+        console.log('🗓️  Current Date Analysis:');
+        console.log(`Gregorian: ${formatDate(today).long}`);
+        
+        const todayAztec = calculateAztecDate(today);
+        console.log(`Sacred: ${todayAztec.summary.sacred}`);
+        console.log(`Solar: ${todayAztec.summary.solar}`);
+        console.log(`Calendar Round Year: ${todayAztec.calendarRoundYear}/52`);
+        console.log('');
+
+        // Test dates
+        const testDates = [
+          new Date('1521-02-22'),
+          new Date('2020-01-01'),
+          new Date('1994-12-21'),
+          new Date('2024-02-29')
+        ];
+
+        console.log('📅 Historical Date Tests:');
+        testDates.forEach((date, index) => {
+          console.log(`\nTest ${index + 1}: ${formatDate(date).us}`);
+          const aztec = calculateAztecDate(date);
+          const trecena = getCurrentTrecena(date);
+          console.log(`  Sacred: ${aztec.summary.sacred}`);
+          console.log(`  Solar: ${aztec.summary.solar}`);
+          console.log(`  Trecena: ${trecena.summary}`);
+          console.log(`  Day in Trecena: ${trecena.dayInTrecena}/13`);
+        });
+        console.log('');
+
+        // Individual calculations
+        console.log('🔢 Individual Calculation Tests:');
+        const testDate = new Date('2024-06-21');
+        const tonalpohualli = calculateTonalpohualli(testDate);
+        const xiuhpohualli = calculateXiuhpohualli(testDate);
+        
+        console.log(`Tonalpohualli for ${formatDate(testDate).us}:`);
+        console.log(`  Number: ${tonalpohualli.number} (${tonalpohualli.numberName})`);
+        console.log(`  Day Sign: ${tonalpohualli.daySign} (${tonalpohualli.daySignEnglish})`);
+        console.log(`  Meaning: ${tonalpohualli.daySignMeaning}`);
+        console.log('');
+
+        console.log(`Xiuhpohualli for ${formatDate(testDate).us}:`);
+        if (xiuhpohualli.isNemontemi) {
+          console.log(`  Nemontemi day ${xiuhpohualli.nemontemiDay}`);
+        } else {
+          console.log(`  Month: ${xiuhpohualli.monthName} (${xiuhpohualli.monthEnglish})`);
+          console.log(`  Day: ${xiuhpohualli.dayInMonth}/20`);
+          console.log(`  Season: ${xiuhpohualli.season}`);
+          console.log(`  Deity: ${xiuhpohualli.associatedDeity}`);
+        }
+        console.log('');
+
+        // Validation tests
+        console.log('✅ Date Validation Tests:');
+        const validDate = new Date('2024-01-01');
+        const invalidDate = new Date('invalid');
+        const outOfRangeDate = new Date('3000-01-01');
+
+        console.log(`Valid date test: ${validateDate(validDate).isValid ? 'PASS' : 'FAIL'}`);
+        console.log(`Invalid date test: ${!validateDate(invalidDate).isValid ? 'PASS' : 'FAIL'}`);
+        console.log(`Out of range test: ${!validateDate(outOfRangeDate).isValid ? 'PASS' : 'FAIL'}`);
+        console.log('');
+
+        // Conversion test
+        console.log('🔄 Aztec to Gregorian Conversion:');
+        const todayAztec = calculateAztecDate(today);
+        const convertedBack = aztecToGregorian(
+          todayAztec.tonalpohualli.tonalpohualliDay,
+          todayAztec.xiuhpohualli.xiuhpohualliDay,
+          0
+        );
+        
+        const daysDiff = Math.abs((convertedBack.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+        
+        console.log(`Original: ${formatDate(today).us}`);
+        console.log(`Converted back: ${formatDate(convertedBack).us}`);
+        console.log(`Days difference: ${daysDiff}`);
+        console.log(`Test: ${daysDiff < 1 ? 'PASS' : 'FAIL'} (should be same or very close date)`);
+
+        console.log('\n🎉 Smoke tests completed!');
+        console.log('If all tests pass, the Aztec Calendar Core is working correctly.');
+      };
+      
+      try {
+        window.customRunSmokeTests();
+        output.textContent = logs.join('\n');
+      } catch (error) {
+        logs.push(`Error: ${error.message}`);
+        output.textContent = logs.join('\n');
+      } finally {
+        console.log = originalLog;
+      }
+    });
+
+    // Set today's date as default in the form
+    document.getElementById('date-input').value = new Date().toISOString().split('T')[0];
+
+    // Initialize displays
+    updateCurrentDate();
+    updateCurrentTrecena();
+  </script>
+</body>
+</html>
