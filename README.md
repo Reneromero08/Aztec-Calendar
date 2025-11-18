@@ -129,36 +129,38 @@ For detailed accessibility guidance, see [docs/accessibility.md](./docs/accessib
 ## 📱 Browser Support
 
 Tested and working on:
-- Chrome/Chromium (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-- Mobile browsers (iOS Safari, Chrome Mobile)
+- **Chrome/Chromium** 90+
+- **Firefox** 88+
+- **Safari** 14+
+- **Edge** 90+
+- **Mobile browsers** - iOS Safari, Chrome Mobile, Firefox Mobile
 
 All pages render correctly when opened directly from the filesystem or served via HTTP.
 
+## 🌐 External Dependencies
+
+This site relies on one external resource via CDN:
+- **Google Fonts** (fonts.googleapis.com) - For Playfair Display, Source Sans 3, and IBM Plex Mono typography
+
+**Important:** The site requires an internet connection to load these fonts. If offline, the page will display with fallback system fonts (serif, sans-serif, monospace).
+
+For offline deployments, consider downloading the font files and serving them locally from the `assets/fonts/` directory.
+
 ## 🚀 Deployment
 
-This static bundle can be deployed to any static hosting service:
+This is a **static website** - no build process or server required. All files are ready to deploy as-is.
 
-### Option 1: GitHub Pages
-```bash
-# Copy files to gh-pages branch
-git checkout -b gh-pages
-# Commit files and push
-git push origin gh-pages
-```
+See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for complete deployment instructions covering:
+- **FTP/SFTP** - Traditional web hosting
+- **GitHub Pages** - Free GitHub hosting
+- **Netlify** - Drag-and-drop deployment
+- **Other static hosts** - Any HTTP server
 
-### Option 2: Netlify
-Drag and drop the project folder onto [Netlify.com](https://netlify.com)
-
-### Option 3: Vercel
-```bash
-vercel deploy --prod
-```
-
-### Option 4: Traditional Hosting
-Upload the entire project folder (all files and directories) via FTP/SFTP to your web server.
+Key points:
+- **No npm install needed** - this is pure HTML/CSS/JavaScript
+- **Directory structure must be preserved** - keep the `assets/` folder in place
+- **All files should be uploaded** - including `index.html`, all `.html` files, and the `assets/` directory
+- The site works locally by opening `index.html` in a browser
 
 ## 📝 File Size
 
@@ -222,9 +224,9 @@ The pages are fully functional without JavaScript, with progressive enhancement 
 
 Comprehensive documentation is available to help you understand and contribute to this project:
 
+- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Deployment guides for FTP, GitHub Pages, Netlify, and other static hosts
 - **[CONTRIBUTING.md](./CONTRIBUTING.md)** - Contribution guidelines, development workflow, code style, and best practices
 - **[docs/architecture.md](./docs/architecture.md)** - System architecture, design patterns, and component overview
-- **[docs/deployment.md](./docs/deployment.md)** - Deployment guides for various platforms (GitHub Pages, Netlify, Vercel, self-hosted)
 - **[docs/accessibility.md](./docs/accessibility.md)** - Accessibility standards, testing procedures, and WCAG 2.1 compliance guidelines
 - **[docs/sources.md](./docs/sources.md)** - Data sources, attributions, licenses, and third-party asset documentation
 

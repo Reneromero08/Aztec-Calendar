@@ -1,410 +1,340 @@
 # Development Guide
 
-This guide covers development practices and conventions for the Educational Platform.
+Guide for developers contributing to the static site.
 
 ## Quick Start
 
+No installation required!
+
 ```bash
-# Install dependencies
-npm install
+# Open in browser directly
+open index.html
 
-# Start development server
-npm run dev
-
-# In another terminal, run tests
-npm run test
-
-# Check code quality
-npm run lint
-npm run type-check
+# Or serve locally with Python
+python3 -m http.server 8000
+# Visit http://localhost:8000
 ```
 
 ## Project Structure
 
 ```
 .
-├── src/
-│   ├── app/                    # Next.js App Router
-│   │   ├── layout.tsx          # Root layout (metadata, accessibility)
-│   │   ├── page.tsx            # Home page
-│   │   ├── globals.css         # Global styles & accessibility
-│   │   ├── calendar/
-│   │   │   ├── page.tsx        # Calendar page
-│   │   │   └── __tests__/
-│   │   │       └── page.test.tsx
-│   │   ├── guide/
-│   │   │   ├── page.tsx        # Guide page
-│   │   │   └── __tests__/
-│   │   │       └── page.test.tsx
-│   │   └── __tests__/
-│   │       └── page.test.tsx
-│   ├── components/             # Reusable React components
-│   ├── lib/                    # Utilities and helpers
-│   │   ├── formatDate.ts       # Date formatting utilities
-│   │   └── __tests__/
-│   │       └── formatDate.test.ts
-│   └── test/
-│       └── setup.ts            # Test configuration
-├── public/                     # Static assets
-├── configuration files         # tsconfig, tailwind, etc.
-└── package.json
+├── index.html                    # Home page
+├── calendar.html                 # Calendar page
+├── guide.html                    # Guides page
+├── guide-aztec-calendar.html     # Deep dive guide
+├── DEPLOYMENT.md                 # Deployment instructions
+├── CONTRIBUTING.md               # Contribution guidelines
+├── README.md                      # Project overview
+├── assets/
+│   ├── css/
+│   │   └── styles.css           # All styling (design tokens + utilities)
+│   ├── images/
+│   │   ├── globe.svg
+│   │   ├── window.svg
+│   │   ├── file.svg
+│   │   └── favicon.ico
+│   ├── js/
+│   │   └── guide-data.js        # Guide data and rendering functions
+│   └── data/
+│       ├── day-signs.js
+│       ├── tonalpohualli-numbers.js
+│       └── xiuhpohualli-months.js
+├── docs/
+│   ├── accessibility.md          # Accessibility guidelines
+│   ├── architecture.md           # System architecture
+│   ├── deployment.md             # ARCHIVED - Legacy Next.js docs
+│   ├── sources.md                # Data sources and attributions
+│   └── testing.md                # Testing procedures
+└── .gitignore                    # Git ignore patterns
 ```
 
-## Adding Features
+## Making Changes
 
-### Creating a New Page
+### Editing HTML Pages
 
-1. Create a new directory under `src/app/`:
-```bash
-mkdir -p src/app/my-feature
-```
+1. **Open any `.html` file** in your text editor (VS Code, Sublime, etc.)
+2. **Make changes** to content, structure, or links
+3. **Save the file**
+4. **Refresh your browser** to see updates
 
-2. Create `page.tsx`:
-```typescript
-import type { Metadata } from "next";
+HTML files use:
+- Semantic HTML (proper heading hierarchy, landmarks)
+- Relative paths for all links (`./page.html`, `./assets/css/styles.css`)
+- Inline `<script>` tags for JavaScript (no external dependencies)
 
-export const metadata: Metadata = {
-  title: "My Feature - Educational Platform",
-  description: "Description of my feature",
-};
+### Updating Styles
 
-export default function MyFeature() {
-  return (
-    <main className="...">
-      <h1>My Feature</h1>
-    </main>
-  );
-}
-```
+All styling is in `assets/css/styles.css`:
 
-3. Create tests in `__tests__/page.test.tsx`:
-```typescript
-import { render, screen } from "@testing-library/react";
-import MyFeature from "../page";
+1. **Color variables** - Edit `:root` section to change global colors:
+   ```css
+   :root {
+     --color-primary-500: #2e8a76;  /* Change primary color */
+   }
+   ```
 
-describe("My Feature Page", () => {
-  it("renders the page title", () => {
-    render(<MyFeature />);
-    expect(screen.getByText("My Feature")).toBeTruthy();
-  });
+2. **Add new styles** - Add at the end of the file using CSS custom properties
+3. **Responsive design** - Use `clamp()` for fluid sizing:
+   ```css
+   font-size: clamp(1rem, 2vw, 1.5rem);
+   ```
+
+4. **Save and refresh** - Browser refreshes automatically show changes
+
+### Adding JavaScript
+
+JavaScript is embedded directly in HTML `<script>` tags:
+
+1. **Edit the `<script>` section** at bottom of any HTML file
+2. **Use vanilla JavaScript** (no frameworks/libraries)
+3. **Use semantic variable names** and clear logic
+4. **Test interactivity** by refreshing the page
+
+Example pattern used in the site:
+
+```javascript
+document.addEventListener('DOMContentLoaded', () => {
+  // Your code here
 });
 ```
 
-### Creating a Reusable Component
+### Adding New Pages
 
-1. Create `src/components/MyComponent.tsx`:
-```typescript
-interface MyComponentProps {
-  title: string;
-  description?: string;
-}
+1. **Copy an existing HTML file** (e.g., `guide.html`)
+2. **Update content** - Change page title, heading, main content
+3. **Update navigation** - Add link to new page in `<nav>` section:
+   ```html
+   <li><a href="./new-page.html">New Page</a></li>
+   ```
+4. **Link from other pages** - Add the same nav link to all other HTML files
+5. **Test all links** - Verify navigation works across all pages
 
-export function MyComponent({ title, description }: MyComponentProps) {
-  return (
-    <div className="...">
-      <h2>{title}</h2>
-      {description && <p>{description}</p>}
-    </div>
-  );
-}
-```
+### Adding Images/Assets
 
-2. Create `src/components/__tests__/MyComponent.test.tsx`:
-```typescript
-import { render, screen } from "@testing-library/react";
-import { MyComponent } from "../MyComponent";
+1. **Save images** to `assets/images/`
+2. **Use SVG format preferred** (scales perfectly, smaller files)
+3. **Reference in HTML:**
+   ```html
+   <img src="./assets/images/filename.svg" alt="Description">
+   ```
+4. **Update in CSS** as background:
+   ```css
+   background-image: url('./assets/images/filename.svg');
+   ```
 
-describe("MyComponent", () => {
-  it("renders the title", () => {
-    render(<MyComponent title="Test" />);
-    expect(screen.getByText("Test")).toBeTruthy();
-  });
-});
-```
+## Code Style & Conventions
 
-### Creating a Utility Function
+### HTML
+- **Use semantic tags:** `<article>`, `<section>`, `<nav>`, `<aside>`, `<header>`, `<footer>`, `<main>`
+- **Proper heading hierarchy:** h1 → h2 → h3 (don't skip levels)
+- **ARIA attributes** for interactive elements:
+  ```html
+  <button aria-label="Toggle menu" aria-expanded="false">Menu</button>
+  ```
+- **Relative paths** for all links:
+  ```html
+  <a href="./page.html">Link</a>  <!-- ✓ Good -->
+  <a href="/page.html">Link</a>    <!-- ✗ Bad -->
+  <a href="page.html">Link</a>     <!-- ✗ Bad -->
+  ```
 
-1. Create `src/lib/myUtil.ts`:
-```typescript
-export function myFunction(input: string): string {
-  return input.toUpperCase();
-}
-```
+### CSS
+- **Use custom properties** instead of hardcoding colors/sizes:
+  ```css
+  color: var(--color-primary-500);     /* ✓ Good */
+  color: #2e8a76;                       /* ✗ Avoid -->
+  ```
+- **Mobile-first approach** - default styles for mobile, then expand:
+  ```css
+  width: 100%;                          /* Mobile */
+  @media (min-width: 768px) {
+    width: 50%;                         /* Tablet+ */
+  }
+  ```
+- **Use clamp() for responsive sizes:**
+  ```css
+  padding: clamp(1rem, 3vw, 2rem);
+  ```
 
-2. Create `src/lib/__tests__/myUtil.test.ts`:
-```typescript
-import { describe, it, expect } from "vitest";
-import { myFunction } from "../myUtil";
+### JavaScript
+- **Use vanilla JavaScript** (no frameworks, minimal dependencies)
+- **DOM queries** - Use semantic selectors:
+  ```javascript
+  document.querySelector('button[aria-label="Toggle menu"]');
+  ```
+- **Event listeners** - Always clean up:
+  ```javascript
+  const handleClick = () => { /* ... */ };
+  element.addEventListener('click', handleClick);
+  ```
+- **Comments** - Only for complex logic, not obvious code
 
-describe("myFunction", () => {
-  it("converts to uppercase", () => {
-    expect(myFunction("hello")).toBe("HELLO");
-  });
-});
-```
+## Testing Changes
 
-## Styling
+Before committing, verify:
 
-### Using Tailwind CSS
+1. **Open all HTML pages in browser:**
+   - index.html
+   - calendar.html
+   - guide.html
+   - guide-aztec-calendar.html
 
-```typescript
-export default function Example() {
-  return (
-    <div className="bg-white dark:bg-gray-900">
-      <h1 className="text-4xl font-bold text-primary-900 dark:text-primary-50">
-        Title
-      </h1>
-      <p className="text-lg text-gray-600 dark:text-gray-300">
-        Description
-      </p>
-    </div>
-  );
-}
-```
+2. **Check in multiple browsers:**
+   - Chrome/Chromium
+   - Firefox
+   - Safari
+   - Edge
 
-### Color Palette
+3. **Responsive testing:**
+   - Resize to mobile (< 768px)
+   - Resize to tablet (768px - 1024px)
+   - Full desktop (> 1024px)
 
-**Primary (Sky Blue)**:
-- `primary-50` to `primary-900` for main actions and links
+4. **Keyboard navigation:**
+   - Tab through all interactive elements
+   - Press Enter/Space on buttons
+   - Press Escape to close mobile menu
 
-**Accent (Purple)**:
-- `accent-50` to `accent-900` for secondary elements
+5. **Browser console (F12):**
+   - No red errors
+   - No 404s for assets
 
-**Neutral**:
-- `gray-50` to `gray-900` for text and backgrounds
+6. **Mobile testing:**
+   - Use Chrome DevTools device emulation
+   - Test on actual phone if possible
+   - Check touch interactions
 
-### Responsive Design
+## Accessibility Checklist
 
-```typescript
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-  {/* Single column on mobile, 2 on tablet, 3 on desktop */}
-</div>
-```
+When making changes, ensure:
 
-### Dark Mode
+- [ ] **Semantic HTML** - Use proper heading hierarchy
+- [ ] **ARIA labels** - All interactive elements have descriptive labels
+- [ ] **Color contrast** - Text meets WCAG AA standards (4.5:1 for normal text)
+- [ ] **Keyboard navigation** - All features work with Tab/Enter/Space
+- [ ] **Focus indicators** - Clear visible outline on focus (orange 3px)
+- [ ] **Skip links** - Skip to main content link at top of page
+- [ ] **Alt text** - All images have descriptive alt attributes
+- [ ] **Reduced motion** - Respects `prefers-reduced-motion` preference
 
-Automatically respects system preference. Test with:
-- Chrome DevTools: Rendering → Emulate CSS media feature prefers-color-scheme
-- Or use `dark:` prefix in Tailwind classes
+Reference: [docs/accessibility.md](./docs/accessibility.md)
 
-## Testing
+## Performance Considerations
 
-### Running Tests
+- **Keep bundle small** - Aim for < 100KB total
+- **Minimize HTTP requests** - Combine CSS, use SVG instead of images
+- **Optimize images** - Use SVG for icons, compress PNG/JPG
+- **Avoid external scripts** - Only Google Fonts from CDN
+- **Inline CSS** if small - Can reduce requests
+- **Lazy load** - Only if performance issue
 
-```bash
-npm run test           # Watch mode
-npm run test:run       # Run once
-npm run test:ui        # Interactive UI
-```
-
-### Writing Tests
-
-```typescript
-import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
-import { MyComponent } from "../MyComponent";
-
-describe("MyComponent", () => {
-  it("renders correctly", () => {
-    render(<MyComponent />);
-    
-    // Assert using screen queries
-    expect(screen.getByText("Expected text")).toBeTruthy();
-    expect(screen.getByRole("button")).toBeTruthy();
-  });
-
-  it("handles user interaction", async () => {
-    const { user } = render(<MyComponent />);
-    await user.click(screen.getByRole("button"));
-    expect(screen.getByText("After click")).toBeTruthy();
-  });
-});
-```
-
-### Testing Best Practices
-
-- Use semantic queries: `getByRole`, `getByLabelText`, `getByText`
-- Avoid implementation details
-- Test user behavior, not implementation
-- Keep tests close to usage patterns
-- Use descriptive test names
-
-## Code Quality
-
-### Linting
-
-```bash
-npm run lint  # Runs ESLint with --fix
-```
-
-Fix linting issues automatically or manually adjust code.
-
-### Type Checking
-
-```bash
-npm run type-check
-```
-
-All TypeScript errors must be resolved before committing.
-
-### Code Style
-
-- 2-space indentation
-- Double quotes for strings
-- Trailing commas in objects
-- Semicolons required
-- 100-character line limit
-
-Files are automatically formatted via Prettier on save if configured in your editor.
-
-## Accessibility Guidelines
-
-### Semantic HTML
-```typescript
-<main>        {/* Main content wrapper */}
-  <h1>Title</h1>   {/* Proper heading hierarchy */}
-  <nav>Navigation</nav>
-  <section>Section</section>
-</main>
-```
-
-### Focus Management
-```typescript
-// Focus styles automatically applied via globals.css
-<button>Click me</button>  {/* 2px blue outline on focus */}
-```
-
-### Skip Link
-Already implemented in root layout, no action needed.
-
-### Color Contrast
-Test with: https://webaim.org/resources/contrastchecker/
-
-### ARIA Labels
-```typescript
-<button aria-label="Close menu">×</button>
-<div role="status" aria-live="polite">Update message</div>
-```
+Current size:
+- HTML files: ~80KB total
+- CSS: ~22KB
+- Images: ~27KB
 
 ## Git Workflow
 
-1. Create feature branch from `feat-scaffold-nextjs14-ts-tailwind`
-2. Make changes
-3. Run quality checks:
+1. **Create a branch** for your changes:
    ```bash
-   npm run lint
-   npm run type-check
-   npm run test:run
-   npm run build
+   git checkout -b feature/your-feature-name
    ```
-4. Commit changes with clear messages
-5. Push and create pull request
 
-## Performance Tips
+2. **Make changes** following the code style above
 
-### Image Optimization
-```typescript
-import Image from "next/image";
+3. **Test thoroughly** using the checklist above
 
-<Image
-  src="/image.jpg"
-  alt="Description"
-  width={400}
-  height={300}
-  priority  // For above-the-fold images
-/>
-```
+4. **Commit with descriptive messages:**
+   ```bash
+   git add .
+   git commit -m "Add feature: describe what you changed"
+   ```
 
-### Code Splitting
-Next.js automatically splits code by route.
+5. **Push and create pull request:**
+   ```bash
+   git push origin feature/your-feature-name
+   ```
 
-### Font Loading
-```typescript
-import { Geist } from "next/font/google";
+6. **Code review** - Address feedback and iterate
 
-const geist = Geist({
-  subsets: ["latin"],
-});
-```
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines.
 
-### CSS Optimization
-Tailwind CSS only includes used classes in production.
+## Debugging
 
-## Environment Setup
+### Browser DevTools (F12)
 
-### Visual Studio Code Extensions
-- ES7+ React/Redux/React-Native snippets
-- Prettier - Code formatter
-- ESLint
-- TypeScript Vue Plugin (Volar)
-- Tailwind CSS IntelliSense
+- **Console tab** - Check for JavaScript errors
+- **Elements tab** - Inspect HTML structure and CSS applied
+- **Network tab** - Check if all assets load (no 404s)
+- **Responsive Design Mode** - Test mobile/tablet sizes
+- **Coverage tab** - Check which CSS/JS is actually used
 
-### Editor Configuration
+### Common Issues
 
-Create `.vscode/settings.json`:
-```json
-{
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  }
-}
-```
+**Styles not applying:**
+- Check CSS file path is correct (./assets/css/styles.css)
+- Verify CSS selector matches HTML element
+- Check for CSS specificity conflicts
+- Look for typos in class names
 
-## Common Tasks
+**JavaScript not working:**
+- Check console for error messages
+- Verify DOM elements exist before referencing
+- Use `console.log()` to debug values
+- Ensure event listeners are attached after DOM loads
 
-### Debug Tests
-```bash
-npm run test -- --inspect-brk
-```
+**Images not showing:**
+- Verify file exists in assets/images/
+- Check path is relative (./assets/images/filename.svg)
+- Check file name spelling (case-sensitive on Linux)
+- Open file directly to check it's valid SVG/PNG
 
-### Build Analysis
-```bash
-npm run build
-npm run analyze  # If configured
-```
+## Design System Reference
 
-### Check Bundle Size
-```bash
-npm run build  # Check .next size
-```
+### Colors
+All colors available as CSS custom properties in `:root`:
 
-### Update Dependencies
-```bash
-npm update           # Update to latest compatible
-npm install          # Reinstall
-npm audit fix        # Fix security issues
-```
+- **Primary (Teal):** --color-primary-[50-950]
+- **Accent (Orange):** --color-accent-[50-950]
+- **Secondary (Pink):** --color-secondary-[50-950]
+- **Neutral (Brown):** --color-neutral-[50-950]
+- **Night (Dark):** --color-night-[50-950]
 
-## Troubleshooting
+Example: `--color-primary-500` = #2e8a76 (main teal)
 
-### Build Fails
-- Run `npm install` to ensure dependencies
-- Check for TypeScript errors: `npm run type-check`
-- Clear cache: `rm -rf .next`
+### Typography
+Loaded from Google Fonts:
+- **Display:** Playfair Display (serif) - headings
+- **Body:** Source Sans 3 (sans-serif) - body text
+- **Mono:** IBM Plex Mono (monospace) - code/technical
 
-### Tests Fail
-- Check test setup file is correct
-- Verify imports in test files
-- Ensure components are exported properly
+### Spacing Scale
+Responsive using clamp():
+- xs: 0.5rem
+- sm: 0.75rem
+- md: 1rem
+- lg: 1.5rem
+- xl: 2rem
+- 2xl: 3rem
 
-### Dev Server Won't Start
-- Kill existing processes on port 3000
-- Clear node_modules and reinstall
-- Check for syntax errors
+Use with classes like: p-md, m-lg, gap-xl, etc.
 
-### Styling Issues
-- Verify Tailwind classes are spelled correctly
-- Check tailwind.config.ts content paths
-- Ensure CSS file is imported in layout
+## Resources
 
-## Additional Resources
+- [README.md](./README.md) - Project overview
+- [CONTRIBUTING.md](./CONTRIBUTING.md) - Contribution guidelines
+- [docs/architecture.md](./docs/architecture.md) - System architecture
+- [docs/accessibility.md](./docs/accessibility.md) - Accessibility standards
+- [DEPLOYMENT.md](./DEPLOYMENT.md) - How to deploy
+- [docs/sources.md](./docs/sources.md) - Data sources and credits
 
-- [Next.js Documentation](https://nextjs.org/docs)
-- [React Documentation](https://react.dev)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs)
-- [Tailwind CSS Docs](https://tailwindcss.com/docs)
-- [Vitest Documentation](https://vitest.dev)
-- [Testing Library Docs](https://testing-library.com)
-- [Web Accessibility](https://www.w3.org/WAI)
+## Questions?
+
+Check the docs/ folder for more detailed information or see README.md.
+
+---
+
+**Version:** Static HTML/CSS/JavaScript  
+**No build tools required**  
+**Edit, save, refresh - that's it!**
